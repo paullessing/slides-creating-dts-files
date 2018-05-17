@@ -1,0 +1,11 @@
+{
+  "name": "slides-creating-dts-files",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Paul Lessing <paul@paullessing.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "reveal.js": "^3.6.0"
+  }
+}
