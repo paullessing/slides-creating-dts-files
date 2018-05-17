@@ -4,25 +4,161 @@
   <meta charset="UTF-8">
   <title>Creating .d.ts Files</title>
   <link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
-  <!--<link rel="stylesheet" href="node_modules/reveal.js/css/theme/night.css">-->
+  <link rel="stylesheet" href="node_modules/reveal.js/css/theme/night.css">
 </head>
 <body>
 <div class="reveal">
   <div class="slides">
+
     <section>
-      <h1>Creating .d.ts files</h1>
+      <h1>Creating <code>.d.ts</code> files</h1>
     </section>
+
     <section>
       <h2>About Me</h2>
-      <p>Paul Lessing</p>
-      <p>City Pantry</p>
-      <p>Angular, Node, Java, PHP</p>
+      <ul>
+        <li>Paul Lessing</li>
+        <li>City Pantry</li>
+        <li>Angular, Node, Java, PHP</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What are <code>.d.ts</code> files?</h2>
+      <ul>
+        <li>TypeScript <em>definition</em> files
+          <ul>
+            <li>C header files (<code>.h</code>)</li>
+          </ul>
+        </li>
+        <li>Interface with JavaScript files</li>
+        <li>Type Checking</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Why do I care?</h2>
+      <ul>
+        <li>Legacy code</li>
+        <li>Migration</li>
+        <li>Third-party Libraries</li>
+        <li>Intellisense</li>
+        <li>Publishing on npm</li>
+      </ul>
+
+      <aside class="notes">
+        Never publish <em>final code</em> as Typescript on npm - other people will not be able to compile it.
+      </aside>
+    </section>
+
+    <section>
+      <h2>Getting Started</h2>
+      <ul>
+        <li><code>tsc -d</code></li>
+        <li>
+          <!-- TODO output -->
+        </li>
+        <li></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Concepts</h2>
+      <ul>
+        <li>Type</li>
+        <li>Value</li>
+        <li>Namespace</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Types</h2>
+      <ul>
+        <!-- TODO bring out only the important bits -->
+        <li><code>type T = number | string</code></li>
+        <li><code>interface I { v: T }</code></li>
+        <li><code>class C {}</code></li>
+        <li><code>enum E { A, B, C }</code></li>
+        <li><code>import { T } from 'm' // when T is a type</code></li>
+      </ul>
+
+      <aside class="notes">
+        Things that are <em>interfaces</em>, compiled out by TypeScript
+      </aside>
+    </section>
+
+    <section>
+      <h2>Values</h2>
+      <ul>
+        <!-- TODO bring out only the important bits -->
+        <li><code>const foo = 'bar' // also let and var</code></li>
+        <li><code>function hello()</code></li>
+        <li><code>enum E { A, B, C }</code></li>
+        <li><code>class C {}</code></li>
+        <li><code>namespace n { const x } // containing a value</code></li>
+        <li><code>module m { const x }    // containing a value</code></li>
+        <li><code>import { v } from 'm' // when v is a value</code></li>
+      </ul>
+
+      <aside class="notes">
+        Things that stay behind when you compile your code
+      </aside>
+    </section>
+
+    <section>
+      <h2>Namespaces</h2>
+      <ul>
+        <li>
+          <code>namespace n { interface I { v: T } }</code>
+          <ul>
+            <li><code>const x: A.B.C</code></li>
+            <li><code>const x = A.B.x</code></li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Value/Type: Class and Enum</h2>
+      <ul>
+        <li>
+          Type
+          <ul>
+            <li>Interface of the class or enum</li>
+          </ul>
+        </li>
+        <li>
+          Value
+          <ul>
+            <li>Class constructor function</li>
+            <li>Enum object</li>
+            <!-- TODO maybe a code sample here? -->
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Example</h2>
+    </section>
+
+    <!-- Slides that need to appear -->
+
+    <section>
+      <h2>@types / DefinitelyTyped</h2>
     </section>
   </div>
 </div>
 <script src="node_modules/reveal.js/js/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/notes/notes.js"></script>
 <script>
-  Reveal.initialize();
+  Reveal.initialize({
+    progress: false,
+    controls: false,
+    history: true,
+    center: false,
+  });
 </script>
 </body>
 </html>
