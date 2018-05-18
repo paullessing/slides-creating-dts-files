@@ -4,19 +4,22 @@
   <meta charset="UTF-8">
   <title>Creating .d.ts Files</title>
   <link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
-  <!--<link rel="stylesheet" href="node_modules/reveal.js/css/theme/night.css">-->
+  <link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
+  <link rel="stylesheet" href="assets/theme.css">
 </head>
 <body>
 <div class="reveal">
   <div class="slides">
 
-    <section>
-      <h1>Creating <code>.d.ts</code> files</h1>
+    <section class="center">
+      <div class="content content--center">
+        <h1>Creating <code>.d.ts</code> files</h1>
+      </div>
     </section>
 
     <section>
       <h2>About Me</h2>
-      <ul>
+      <ul class="content">
         <li>Paul Lessing</li>
         <li>City Pantry</li>
         <li>Angular, Node, Java, PHP</li>
@@ -25,7 +28,7 @@
 
     <section>
       <h2>What are <code>.d.ts</code> files?</h2>
-      <ul>
+      <ul class="content">
         <li>TypeScript <em>definition</em> files
           <ul>
             <li>C header files (<code>.h</code>)</li>
@@ -38,7 +41,7 @@
 
     <section>
       <h2>Why do I care?</h2>
-      <ul>
+      <ul class="content">
         <li>Legacy code</li>
         <li>Migration</li>
         <li>Third-party Libraries</li>
@@ -53,7 +56,7 @@
 
     <section>
       <h2>Getting Started</h2>
-      <ul>
+      <ul class="content">
         <li><code>tsc -d</code></li>
         <li>
           <!-- TODO output -->
@@ -64,7 +67,7 @@
 
     <section>
       <h2>Concepts</h2>
-      <ul>
+      <ul class="content">
         <li>Type</li>
         <li>Value</li>
         <li>Namespace</li>
@@ -73,7 +76,7 @@
 
     <section>
       <h2>Types</h2>
-      <ul>
+      <ul class="content">
         <!-- TODO bring out only the important bits -->
         <li><code>type T = number | string</code></li>
         <li><code>interface I { v: T }</code></li>
@@ -89,7 +92,7 @@
 
     <section>
       <h2>Values</h2>
-      <ul>
+      <ul class="content">
         <!-- TODO bring out only the important bits -->
         <li><code>const foo = 'bar' // also let and var</code></li>
         <li><code>function hello()</code></li>
@@ -107,7 +110,7 @@
 
     <section>
       <h2>Namespaces</h2>
-      <ul>
+      <ul class="content">
         <li>
           <code>namespace n { interface I { v: T } }</code>
           <ul>
@@ -120,7 +123,7 @@
 
     <section>
       <h2>Value/Type: Class and Enum</h2>
-      <ul>
+      <ul class="content">
         <li>
           Type
           <ul>
@@ -138,6 +141,21 @@
       </ul>
     </section>
 
+    <section>
+      <h2>Merging</h2>
+      <ul class="content">
+        <li>Overloading meanings</li>
+        <li>TODO code snippet</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>exports</h2>
+      <ul class="content">
+        <li>Meanings (one, all)</li>
+      </ul>
+    </section>
+
 
     <section>
       <h2>Example</h2>
@@ -148,20 +166,10 @@
     <section>
       <h2>@types / DefinitelyTyped</h2>
     </section>
-
-    <section>
-      <h2>Merging</h2>
-    </section>
-
-    <section>
-      <h2>exports</h2>
-      <ul>
-        <li>Meanings (one, all)</li>
-      </ul>
-    </section>
   </div>
 </div>
 <script src="node_modules/reveal.js/js/reveal.js"></script>
+<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
 <script src="node_modules/reveal.js/plugin/notes/notes.js"></script>
 <script>
   Reveal.initialize({

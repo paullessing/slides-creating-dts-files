@@ -6,12 +6,15 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "start": "concurrently \"http-server\" \"livereload\""
+    "start": "concurrently \"http-server\" \"livereload\"",
+    "build-theme": "node-sass src/style/theme.scss assets/theme.css",
+    "build-theme-watch": "node-sass -w src/style/theme.scss assets/theme.css"
   },
   "dependencies": {
     "concurrently": "^3.5.1",
     "http-server": "^0.11.1",
     "livereload": "^0.7.0",
+    "node-sass": "^4.9.0",
     "reveal.js": "^3.6.0"
   }
 }

@@ -1,0 +1,71 @@
+// Default mixins and settings -----------------
+@import "../../node_modules/reveal.js/css/theme/template/mixins";
+@import "../../node_modules/reveal.js/css/theme/template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+@import url('https://fonts.googleapis.com/css?family=Montserrat:700|Open+Sans:400,700,400italic,700italic|Roboto+Mono');
+
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #ede8e1;
+
+$mainFont: 'Open Sans', sans-serif;
+$mainColor: #3a3a3a;
+$headingColor: $mainColor;
+$linkColorHover: lighten( $linkColor, 20% );
+$headingFont: 'Montserrat', Impact, sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: -0.03em;
+$headingTextTransform: none;
+$selectionBackgroundColor: #e7ad52;
+
+$monospaceFont: 'Roboto Mono', monospace;
+
+$heading1Size: 3.77em;
+$heading2Size: 1.55em;
+$heading3Size: 1.2em;
+$heading4Size: 1em;
+$fontSize: 35px;
+
+// Theme template ------------------------------
+@import "../../node_modules/reveal.js/css/theme/template/theme";
+// ---------------------------------------------
+
+.reveal {
+  .slides {
+    text-align: left;
+    font-size: $fontSize;
+
+    &, & * {
+      &, &::before, &::after {
+        box-sizing: border-box;
+      }
+    }
+
+    > section {
+      height: 100%;
+    }
+  }
+
+  code {
+    font-family: $monospaceFont;
+  }
+
+  h1 {
+    text-align: center;
+  }
+}
+
+.content {
+  padding: 1em;
+
+  &--center {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
