@@ -5,7 +5,13 @@
   "author": "Paul Lessing <paul@paullessing.com>",
   "license": "UNLICENSED",
   "private": true,
+  "scripts": {
+    "start": "concurrently \"http-server\" \"livereload\""
+  },
   "dependencies": {
+    "concurrently": "^3.5.1",
+    "http-server": "^0.11.1",
+    "livereload": "^0.7.0",
     "reveal.js": "^3.6.0"
   }
 }
