@@ -47,7 +47,7 @@ body {
   word-wrap: break-word; }
 
 .reveal h1 {
-  font-size: 3.77em; }
+  font-size: 3em; }
 
 .reveal h2 {
   font-size: 1.55em; }
@@ -268,6 +268,25 @@ body {
 
 .reveal h1 {
   text-align: center; }
+
+.reveal li {
+  margin-bottom: 0.5em; }
+
+.reveal li > ul {
+  margin-top: 0.5em; }
+
+.reveal pre {
+  width: auto;
+  margin-left: 0;
+  margin-right: 0; }
+  .reveal pre.full {
+    width: 100%; }
+
+.reveal code.small {
+  font-size: 0.8em; }
+
+.reveal ul {
+  width: 100%; }
 
 .content {
   padding: 1em; }

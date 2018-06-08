@@ -13,18 +13,19 @@
 
     <section class="center">
       <div class="content content--center">
-        <h1>Creating <code>.d.ts</code> files</h1>
+        <h1>I Hereby<br />Do Declare</h1>
+        <h2 style="text-align: center">Understanding Typescript Definition Files</h2>
       </div>
     </section>
 
-    <section>
-      <h2>About Me</h2>
-      <ul class="content">
-        <li>Paul Lessing</li>
-        <li>City Pantry</li>
-        <li>Angular, Node, Java, PHP</li>
-      </ul>
-    </section>
+    <!--<section hidden>-->
+      <!--<h2>About Me</h2>-->
+      <!--<ul class="content">-->
+        <!--<li>Paul Lessing</li>-->
+        <!--<li>City Pantry</li>-->
+        <!--<li>Angular, Node, Java, PHP</li>-->
+      <!--</ul>-->
+    <!--</section>-->
 
     <section>
       <h2>What are <code>.d.ts</code> files?</h2>
@@ -57,12 +58,14 @@
     <section>
       <h2>Getting Started</h2>
       <ul class="content">
-        <li><code>tsc -d</code></li>
-        <li>
-          <!-- TODO output -->
-        </li>
-        <li></li>
+        <li><code>tsc -d &lt;file&gt;.ts</code></li>
       </ul>
+      <div>
+        <img src="assets/snippets/printer.ts.png" width="449" style="vertical-align: top">
+        <img src="assets/snippets/printer.d.ts.png" width="396" style="vertical-align: top">
+      </div>
+      <div>
+      </div>
     </section>
 
     <section>
@@ -75,32 +78,29 @@
     </section>
 
     <section>
-      <h2>Types</h2>
+      <h2>Concepts: Types</h2>
       <ul class="content">
-        <!-- TODO bring out only the important bits -->
-        <li><code>type T = number | string</code></li>
-        <li><code>interface I { v: T }</code></li>
-        <li><code>class C {}</code></li>
-        <li><code>enum E { A, B, C }</code></li>
-        <li><code>import { T } from 'm' // when T is a type</code></li>
+        <li><code><b>type</b> T = number | string</code></li>
+        <li><code><b>interface</b> I { v: T }</code></li>
+        <li><code><b>class</b> C {}</code></li>
+        <li><code><b>enum</b> E { A, B, C }</code></li>
+        <li><code>import { T } from 'm'</code></li>
       </ul>
-
       <aside class="notes">
         Things that are <em>interfaces</em>, compiled out by TypeScript
       </aside>
     </section>
 
     <section>
-      <h2>Values</h2>
+      <h2>Concepts: Values</h2>
       <ul class="content">
-        <!-- TODO bring out only the important bits -->
-        <li><code>const foo = 'bar' // also let and var</code></li>
-        <li><code>function hello()</code></li>
-        <li><code>enum E { A, B, C }</code></li>
-        <li><code>class C {}</code></li>
-        <li><code>namespace n { const x } // containing a value</code></li>
-        <li><code>module m { const x }    // containing a value</code></li>
-        <li><code>import { v } from 'm' // when v is a value</code></li>
+        <li><code><b>const</b> foo = 'bar' // let, var</code></li>
+        <li><code><b>function</b> hello()</code></li>
+        <li><code><b>enum</b> E { A, B, C }</code></li>
+        <li><code><b>class</b> C {}</code></li>
+        <li><code><b>namespace</b> n { const x }</code></li>
+        <li><code><b>module</b> m { const x }</code></li>
+        <li><code>import { <b>v</b> } from 'm' </code></li>
       </ul>
 
       <aside class="notes">
@@ -112,28 +112,29 @@
       <h2>Namespaces</h2>
       <ul class="content">
         <li>
-          <code>namespace n { interface I { v: T } }</code>
+          <code>namespace N { interface I { v: T } }</code>
           <ul>
-            <li><code>const x: A.B.C</code></li>
-            <li><code>const x = A.B.x</code></li>
+            <li><code>const x: A.B.C // Types</code></li>
+            <li><code>const x = A.B.x // Values</code></li>
           </ul>
         </li>
       </ul>
     </section>
 
     <section>
-      <h2>Value/Type: Class and Enum</h2>
+      <h2>Both Value <em>and</em> Type</h2>
       <ul class="content">
         <li>
-          Type
+          Class
           <ul>
-            <li>Interface of the class or enum</li>
+            <li>Interface</li>
+            <li>Constructor function</li>
           </ul>
         </li>
         <li>
-          Value
+          Enum
           <ul>
-            <li>Class constructor function</li>
+            <li>Type</li>
             <li>Enum object</li>
             <!-- TODO maybe a code sample here? -->
           </ul>
@@ -142,10 +143,159 @@
     </section>
 
     <section>
+      <h2>So what does <em>this</em> mean?</h2>
+      <p><pre><code class="lang-typescript">import { Foo } from 'foo';
+
+new Foo();
+-> error TS2693: 'Foo' only refers to a type, but is being used as a value here.</code></pre></p>
+      <ul>
+        <li class="fragment">
+          We think <code>Foo</code> is a <em>class</em> (value), but we have imported an <em>interface</em> (type)
+        </li>
+      </ul>
+    </section>
+
+    <section>
       <h2>Merging</h2>
       <ul class="content">
-        <li>Overloading meanings</li>
-        <li>TODO code snippet</li>
+        <li>Overloading</li>
+        <li>Multiple definitions as if they were one
+          <pre><code class="lang-typescript">interface Foo { a: string; }
+interface Foo { b: number; }
+
+// Result
+interface Foo {
+  a: string;
+  b: number;
+}</code></pre>
+        </li>
+        <li class="fragment">Allows representing real-life JS library behaviour
+          <pre><code class="lang-typescript">const now: moment.Moment = moment();
+
+// Example declaration
+namespace moment {
+  interface Moment {}
+}
+function moment(): moment.Moment;</code></pre>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <section>
+        <h2>Merge Rules</h2>
+        <ul>
+          <li>
+            Can merge anything that doesn't cause a conflict
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Merge Rules: Conflicts</h2>
+        <ul class="content">
+          <li>
+            Different types for the same name
+            <pre class="full"><code class="small lang-typescript">interface Foo { a: string; }
+interface Foo { a: number; }
+
+// Result
+error TS2727: Subsequent property declarations must have the same type.
+  Property 'a' must be of type 'string', but here has type 'number'.</code></pre>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Merge Rules: Conflicts</h2>
+        <ul class="content">
+          <li>
+            Type aliases
+            <pre class="full"><code class="small lang-typescript">type Direction = 'left';
+type Direction = 'right';
+
+// Result
+error TS2300: Duplicate identifier 'Direction'.</code></pre>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Merge Rules: Conflicts</h2>
+        <ul class="content">
+          <li>
+            Values
+            <pre><code class="small lang-typescript">let Direction = 'left';
+function Direction(): string;
+
+// Result
+error TS2300: Duplicate identifier 'Direction'.</code></pre>
+          </li>
+          <li class="fragment">
+            Exception: namespaces
+            <pre class="fragment"><code class="small lang-typescript">function time(): Date;
+namespace time {
+  const startOfTime: number = 0;
+  now(): Date;
+}</code></pre>
+          </li>
+          <li class="fragment">
+            Namespaces <em>never</em> conflict
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <section>
+      <h2>Merge Rules: Namespaces</h2>
+      <ul class="content">
+        <li>
+          Namespaces never conflict
+          <ul>
+            <li class="fragment">
+              ...but the things inside them might (if they're exported)
+            <pre class="fragment"><code class="lang-typescript">export namespace n {
+  export interface F {
+    a: string;
+  }
+}
+export namespace n {
+  export interface F {
+    a: number;
+  }
+}
+
+// Result
+Subsequent property declarations must have the same type.
+  Property 'a' must be of type 'string', but here has type 'number'.</code></pre>
+            </li>
+          </ul>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Merge Rules: Values</h2>
+      <ul>
+        <li class="fragment">
+          Fine when there's no conflict
+          <pre><code class="lang-typescript">interface Foo { a: string; }
+interface Foo { b: number; }
+
+// Result
+interface Foo {
+  a: string;
+  b: number;
+}</code></pre>
+        </li>
+        <li class="fragment">
+          Conflict:
+          <pre><code class="small">interface Foo { a: string; }
+interface Foo { a: number; }
+
+// Result
+error TS2727: Subsequent property declarations must have the same type.
+  Property 'a' must be of type 'string', but here has type 'number'.</code></pre>
+        </li>
       </ul>
     </section>
 
@@ -166,10 +316,22 @@
     <section>
       <h2>@types / DefinitelyTyped</h2>
     </section>
+
   </div>
 </div>
+
+<div class="display: none">
+  TODO
+
+  declare var Sinon: Sinon.SinonStatic;
+
+  export = Sinon;
+  export as namespace sinon;
+</div>
+
+<script src="node_modules/reveal.js/lib/js/head.min.js"></script>
 <script src="node_modules/reveal.js/js/reveal.js"></script>
-<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<!--<script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>-->
 <script src="node_modules/reveal.js/plugin/notes/notes.js"></script>
 <script>
   Reveal.initialize({
@@ -177,6 +339,9 @@
     controls: false,
     history: true,
     center: false,
+    dependencies: [
+      { src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+    ]
   });
 </script>
 <script>
