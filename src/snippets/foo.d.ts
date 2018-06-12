@@ -1,5 +1,11 @@
 export namespace foo.bar {
-  export interface TestInterface {
+  interface TestInterface {
     x: string;
+  }
+}
+
+namespace f {
+  interface X {
+
   }
 }

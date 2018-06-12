@@ -13,7 +13,7 @@
 
     <section class="center">
       <div class="content content--center">
-        <h1>I Hereby<br />Do Declare</h1>
+        <h1>I Hereby<br />Declare</h1>
         <h2 style="text-align: center">Understanding Typescript Definition Files</h2>
       </div>
     </section>
@@ -144,13 +144,16 @@
 
     <section>
       <h2>So what does <em>this</em> mean?</h2>
-      <p><pre><code class="lang-typescript">import { Foo } from 'foo';
-
-new Foo();
--> error TS2693: 'Foo' only refers to a type, but is being used as a value here.</code></pre></p>
+      <img src="assets/snippets/refers-only-to-a-type.png" width="60%" style="vertical-align: top">
       <ul>
         <li class="fragment">
-          We think <code>Foo</code> is a <em>class</em> (value), but we have imported an <em>interface</em> (type)
+          We think <code>Promise</code> is a <em>class</em> (value), but the compiler only has an <em>interface</em> (type)
+        </li>
+        <li class="fragment">
+          In this case: Ambient import vs. explicit import
+        </li>
+        <li class="fragment">
+          We forgot to declare the right library in our <code>tsconfig.json</code>!
         </li>
       </ul>
     </section>
@@ -274,41 +277,59 @@ Subsequent property declarations must have the same type.
     </section>
 
     <section>
-      <h2>Merge Rules: Values</h2>
+      <h2>Merge Rules: Exporting</h2>
       <ul>
-        <li class="fragment">
-          Fine when there's no conflict
-          <pre><code class="lang-typescript">interface Foo { a: string; }
-interface Foo { b: number; }
-
-// Result
-interface Foo {
-  a: string;
-  b: number;
+        <li>
+          All exported types and values are visible
+        </li>
+        <li>
+          Exporting works from inside namespaces
+        </li>
+        <li>
+          Non-exported values inside namespaces are "private"
+        </li>
+      </ul>
+      <pre class="fragment lang-ts"><code>namespace zoo {
+  export interface Mammal { legs: number; }
+  interface Dinosaur {}
+}
+namespace zoo {
+  export interface Mammal { furType: string; }
+  export class Rabbit implements Mammal {
+    legs: number;
+    furType: string;
+    friend: Dinosaur; // Error
+  }
+  export const bunny = new Rabbit();
 }</code></pre>
-        </li>
-        <li class="fragment">
-          Conflict:
-          <pre><code class="small">interface Foo { a: string; }
-interface Foo { a: number; }
-
-// Result
-error TS2727: Subsequent property declarations must have the same type.
-  Property 'a' must be of type 'string', but here has type 'number'.</code></pre>
-        </li>
-      </ul>
     </section>
 
     <section>
-      <h2>exports</h2>
-      <ul class="content">
-        <li>Meanings (one, all)</li>
-      </ul>
-    </section>
+      <h2>Example: Jasmine Matchers</h2>
+      <pre class="lang-ts"><code>const testElement = fixture.debugElement.query(By.css('.test'));
+expect(testElement).toBePresent();</code></pre>
 
+      <pre class="lang-ts fragment"><code>jasmine.addMatchers({
+  toBePresent: () => ({
+    compare: (actual: DebugElement | null | void, message?: string) => {
+      return {
+        pass: !!actual,
+        message: `Expected element ${ actual ? 'not ' : ''}to be present` +
+          (message ? `: ${message}` : '')
+      };
+    }
+  }),
+};</code></pre>
 
-    <section>
-      <h2>Example</h2>
+      <pre class="lang-ts fragment"><code>declare namespace jasmine {
+  export interface Matchers&lt;T&gt; {
+    /**
+     * Tests whether a given DebugElement is present in the DOM.
+     * @param {string} message (optional) message to display on failure.
+     */
+    toBePresent(message?: string): boolean;
+  }
+}</code></pre>
     </section>
 
     <!-- Slides that need to appear -->
