@@ -257,7 +257,7 @@ body {
 
 .reveal .slides {
   text-align: left;
-  font-size: 35px; }
+  font-size: 30px; }
   .reveal .slides, .reveal .slides::before, .reveal .slides::after, .reveal .slides *, .reveal .slides *::before, .reveal .slides *::after {
     box-sizing: border-box; }
   .reveal .slides > section {

@@ -243,7 +243,7 @@ namespace time {
 }</code></pre>
           </li>
           <li class="fragment">
-            Namespaces <em>never</em> conflict
+            Namespaces never conflict
           </li>
         </ul>
       </section>
@@ -305,6 +305,14 @@ namespace zoo {
     </section>
 
     <section>
+      <h2>Difference between <code>.d.ts</code> and <code>.ts</code></h2>
+    </section>
+
+    <section>
+      <h2>What is <code>declare</code>?</h2>
+    </section>
+
+    <section>
       <h2>Example: Jasmine Matchers</h2>
       <pre class="lang-ts"><code>const testElement = fixture.debugElement.query(By.css('.test'));
 expect(testElement).toBePresent();</code></pre>
@@ -330,6 +338,48 @@ expect(testElement).toBePresent();</code></pre>
     toBePresent(message?: string): boolean;
   }
 }</code></pre>
+    </section>
+
+    <section>
+      <h2>Tools: Type Unions</h2>
+      <pre class="lang-ts"><code>type Direction = 'right' | 'left';</code></pre>
+    </section>
+
+    <section>
+      <h2>Problem: String IDs</h2>
+      <pre class="lang-ts"><code>interface Order {
+  id: string;
+  ...
+}
+
+class OrderService {
+  getOrder(orderId: string): Order {}
+}</code></pre>
+      <ul class="fragment">
+        <li>How to ensure correct call?</li>
+        <li><code>string</code> could come from anywhere</li>
+        <li><code>orderService.getOrder(customerId);</code></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Pattern: Phantom Types</h2>
+      <pre class="lang-ts"><code>interface Order {
+  id: OrderId;
+  ...
+}
+interface OrderId extends String {
+  __order_id_phantom__: never;
+}
+
+class OrderService {
+  getOrder(orderId: OrderId): Order {}
+}</code></pre>
+      <ul>
+        <li>Cannot assign to <code>never</code></li>
+        <li><code>OrderId</code> is still a String</li>
+        <li><b>But</b> no other string is an OrderId</li>
+      </ul>
     </section>
 
     <!-- Slides that need to appear -->
