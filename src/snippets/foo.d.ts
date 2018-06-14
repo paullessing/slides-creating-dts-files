@@ -1,10 +1,10 @@
-export namespace foo.bar {
+declare namespace foo.bar {
   interface TestInterface {
     x: string;
   }
 }
 
-namespace f {
+declare namespace f {
   interface X {
 
   }

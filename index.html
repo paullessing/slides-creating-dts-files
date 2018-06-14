@@ -48,6 +48,7 @@
         <li>Third-party Libraries</li>
         <li>Intellisense</li>
         <li>Publishing on npm</li>
+        <li class="fragment">Applications for regular <code>.ts</code></li>
       </ul>
 
       <aside class="notes">
@@ -69,23 +70,48 @@
     </section>
 
     <section>
-      <h2>Comparison</h2>
-      <div class="fragment">
+      <h2>File Endings</h2>
+      <div>
         <h3>.ts</h3>
-        <ul class="content">
+        <ul class="content fragment">
           <li>Explicity imported</li>
           <li>Contains code and/or declarations</li>
         </ul>
       </div>
-      <div class="fragment">
+      <div>
         <h3>.d.ts</h3>
-        <ul class="content">
+        <ul class="content fragment">
           <li>Automatically imported</li>
           <li>Imported <em>by name</em></li>
           <li><code>index.d.ts</code> in package.json</li>
+          <li>Must <code>declare</code> everything at top level</li>
           <li>Is a <code>.ts</code> file - all the same rules apply</li>
           <li class="fragment">Use when dealing with external code</li>
         </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>The <code>declare</code> keyword</h2>
+      <blockquote>
+        The TypeScript <b>declare</b> keyword is used to declare variables that may not have originated from a TypeScript file.
+      </blockquote>
+      <ul>
+        <li>All variables <em>inside</em> <code>.ts</code> files are either exported or invisible</li>
+        <li>Global Scope</li>
+        <li>Examples: jQuery <code>$</code>, Google Analytics <code>ga</code></li>
+      </ul>
+      <div class="fragment">
+        <code>ga.js</code>
+        <pre class="lang-js"><code>window.ga = ga || [];</code></pre>
+      </div>
+      <div class="fragment">
+        <code>analytics.ts</code>
+        <pre class="lang-ts"><code>ga.push('pageview');      // error TS2304: Cannot find name 'ga'.
+
+declare const ga: string[];
+ga.push('pageview');      // OK
+</code></pre>
       </div>
     </section>
 
@@ -164,6 +190,29 @@
     </section>
 
     <section>
+      <section>
+        <h2>Module vs Namespace</h2>
+        <h3><code>namespace</code></h3>
+        <ul>
+          <li>JavaScript Object</li>
+          <li>Can export selectively from inside <code>namespace</code></li>
+        </ul>
+        <h3><code>module</code></h3>
+        <ul>
+          <li>Old name: "External Modules"</li>
+          <li>Only <code>declare</code>d in <code>.d.ts</code> files</li>
+          <li>1 <code>.ts</code> file = 1 <code>module</code></li>
+        </ul>
+      </section>
+      <section>
+        <div class="content content--center">
+          <h2>Compiled output</h2>
+          <img src="assets/snippets/namespace-module.png">
+        </div>
+      </section>
+    </section>
+
+    <section>
       <h2>So what does <em>this</em> mean?</h2>
       <img src="assets/snippets/refers-only-to-a-type.png" width="60%" style="vertical-align: top">
       <ul>
@@ -180,11 +229,12 @@
     </section>
 
     <section>
-      <h2>Merging</h2>
-      <ul class="content">
-        <li>Overloading</li>
-        <li>Multiple definitions as if they were one
-          <pre><code class="lang-typescript">interface Foo { a: string; }
+      <section>
+        <h2>Merging</h2>
+        <ul class="content">
+          <li>Overloading</li>
+          <li>Multiple definitions as if they were one
+            <pre><code class="lang-typescript">interface Foo { a: string; }
 interface Foo { b: number; }
 
 // Result
@@ -192,24 +242,17 @@ interface Foo {
   a: string;
   b: number;
 }</code></pre>
-        </li>
-        <li class="fragment">Allows representing real-life JS library behaviour
-          <pre><code class="lang-typescript">const now: moment.Moment = moment();
+          </li>
+          <li class="fragment">Allows representing real-life JS library behaviour
+            <pre><code class="lang-typescript">const now: moment.Moment = moment();
 
 // Example declaration
 namespace moment {
   interface Moment {}
 }
 function moment(): moment.Moment;</code></pre>
-        </li>
-      </ul>
-    </section>
-
-    <section>
-      <section>
-        <h2>Merge Rules</h2>
-        <ul>
-          <li>
+          </li>
+          <li class="fragment">
             Can merge anything that doesn't cause a conflict
           </li>
         </ul>
@@ -310,11 +353,11 @@ Subsequent property declarations must have the same type.
           Non-exported values inside namespaces are "private"
         </li>
       </ul>
-      <pre class="fragment lang-ts"><code>namespace zoo {
+      <pre class="fragment lang-ts"><code>export namespace zoo {
   export interface Mammal { legs: number; }
   interface Dinosaur {}
 }
-namespace zoo {
+export namespace zoo {
   export interface Mammal { furType: string; }
   export class Rabbit implements Mammal {
     legs: number;
@@ -323,30 +366,6 @@ namespace zoo {
   }
   export const bunny = new Rabbit();
 }</code></pre>
-    </section>
-
-    <section>
-      <h2>The <code>declare</code> keyword</h2>
-      <blockquote>
-        The TypeScript <b>declare</b> keyword is used to declare variables that may not have originated from a TypeScript file.
-      </blockquote>
-      <ul>
-        <li>All variables <em>inside</em> <code>.ts</code> files are either exported or invisible</li>
-        <li>Global Scope</li>
-        <li>Examples: jQuery <code>$</code>, Google Analytics <code>ga</code></li>
-      </ul>
-      <div class="fragment">
-        <code>ga.js</code>
-        <pre class="lang-js"><code>window.ga = ga || [];</code></pre>
-      </div>
-      <div class="fragment">
-        <code>analytics.ts</code>
-        <pre class="lang-ts"><code>ga.push('pageview');      // error TS2304: Cannot find name 'ga'.
-
-declare var ga: string[];
-ga.push('pageview');      // OK
-</code></pre>
-      </div>
     </section>
 
     <section>
@@ -378,42 +397,20 @@ expect(testElement).toBePresent();</code></pre>
     </section>
 
     <section>
-      <h2>Overloading</h2>
-      <pre class="lang-ts"><code>export function matchRequest&lt;T = any&gt;(
-  url: string, queryParams?: Params
-): HttpRequestMatcher&lt;T&gt;;
-
-export function matchRequest&lt;T = any&gt;(
-  url: string, method: QueryRequestMethod, queryParams?: Params
-): HttpRequestMatcher&lt;T&gt;;
-
-export function matchRequest&lt;T = any&gt;(
-  url: string, method: BodyRequestMethod, body?: any
-): HttpRequestMatcher&lt;T&gt;;
-
-export function matchRequest&lt;T = any&gt;(
-  config: HttpRequestMatcherConfig
-): HttpRequestMatcher&lt;T&gt;;
-
-export function matchRequest&lt;T = any&gt;(
-  urlOrConfig: string | HttpRequestMatcherConfig,
-  methodOrQueryParams?: RequestMethod | Params,
-  queryParamsOrBody?: Params | any
-
-): HttpRequestMatcher&lt;T&gt; {
-  ...
-}
-      </code></pre>
-    </section>
-    
-    <section>
-      <h2>Tools: Type Unions</h2>
-      <pre class="lang-ts"><code>type Direction = 'right' | 'left';</code></pre>
+      <section>
+        <h2>Overloading: HTTP Matcher</h2>
+        <img src="assets/snippets/overloaded-http-matcher.png" style="border: 0">
+      </section>
+      <section>
+        <h2>Overloading: Intellisense</h2>
+        <img src="assets/snippets/http-autocomplete.png" style="border: 0">
+      </section>
     </section>
 
     <section>
-      <h2>Problem: String IDs</h2>
-      <pre class="lang-ts"><code>interface Order {
+      <section>
+        <h2>Problem: String IDs</h2>
+        <pre class="lang-ts"><code>interface Order {
   id: string;
   ...
 }
@@ -421,16 +418,16 @@ export function matchRequest&lt;T = any&gt;(
 class OrderService {
   getOrder(orderId: string): Order {}
 }</code></pre>
-      <ul class="fragment">
-        <li>How to ensure correct call?</li>
-        <li><code>string</code> could come from anywhere</li>
-        <li><code>orderService.getOrder(customerId);</code></li>
-      </ul>
-    </section>
+        <ul class="fragment">
+          <li>How to ensure correct call?</li>
+          <li><code>string</code> could come from anywhere</li>
+          <li><code>orderService.getOrder(customerId);</code></li>
+        </ul>
+      </section>
 
-    <section>
-      <h2>Pattern: Phantom Types</h2>
-      <pre class="lang-ts"><code>interface Order {
+      <section>
+        <h2>Pattern: Phantom Types</h2>
+        <pre class="lang-ts"><code>interface Order {
   id: OrderId;
   ...
 }
@@ -439,13 +436,32 @@ interface OrderId extends String {
 }
 
 class OrderService {
-  getOrder(orderId: OrderId): Order {}
+  getOrder(orderId: OrderId): Order {
+    return this.http.get(`http://api.dev/orders/${orderId}`);
+  }
 }</code></pre>
-      <ul>
-        <li>Cannot assign to <code>never</code></li>
-        <li><code>OrderId</code> is still a String</li>
-        <li><b>But</b> no other string is an OrderId</li>
-      </ul>
+        <ul>
+          <li>Cannot assign to <code>never</code></li>
+          <li><code>OrderId</code> is still a String</li>
+          <li><b>But</b> no other string is an OrderId</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Pattern: Phantom Types</h2>
+        <pre class="lang-ts"><code>const orderId: string = router.queryParams.orderId;
+
+orderService.getOrder(orderId); // error</code></pre>
+        <pre class="lang-ts fragment"><code>function ensureOrderId(id: string): OrderId {
+  if (!id || !id.match(ORDER_ID_PATTERN)) {
+    throw new Error(`ID "${id}" does not look like a valid OrderId!`);
+  }
+  return id as OrderId;
+}
+
+const orderId: string = ensureOrderId(router.queryParams.orderId);
+orderService.getOrder(orderId); // OK</code></pre>
+      </section>
     </section>
 
   </div>
@@ -472,8 +488,8 @@ class OrderService {
 <script src="node_modules/reveal.js/plugin/notes/notes.js"></script>
 <script>
   Reveal.initialize({
-    progress: false,
-    controls: false,
+    progress: true,
+    controls: true,
     history: true,
     center: false,
     dependencies: [

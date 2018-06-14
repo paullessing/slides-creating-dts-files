@@ -29,6 +29,8 @@ $heading3Size: 1.2em;
 $heading4Size: 1em;
 $fontSize: 30px;
 
+$linkColor: #e7ad52;
+
 // Theme template ------------------------------
 @import "../../node_modules/reveal.js/css/theme/template/theme";
 // ---------------------------------------------
@@ -81,6 +83,21 @@ $fontSize: 30px;
 
   ul {
     width: 100%;
+    max-width: 100%;
+  }
+  li {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  section {
+    img {
+      border: none;
+    }
+  }
+
+  .controls .navigate-down.highlight {
+    animation: none;
   }
 }
 
