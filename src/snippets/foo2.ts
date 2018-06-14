@@ -10,3 +10,6 @@ namespace f2 {
 
   const f: X;
 }
+
+
+ga.push('pageview');

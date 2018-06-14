@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Creating .d.ts Files</title>
+  <title>I Hereby Declare</title>
   <link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
   <link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
   <link rel="stylesheet" href="assets/theme.css">
@@ -65,6 +65,27 @@
         <img src="assets/snippets/printer.d.ts.png" width="396" style="vertical-align: top">
       </div>
       <div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Comparison</h2>
+      <div class="fragment">
+        <h3>.ts</h3>
+        <ul class="content">
+          <li>Explicity imported</li>
+          <li>Contains code and/or declarations</li>
+        </ul>
+      </div>
+      <div class="fragment">
+        <h3>.d.ts</h3>
+        <ul class="content">
+          <li>Automatically imported</li>
+          <li>Imported <em>by name</em></li>
+          <li><code>index.d.ts</code> in package.json</li>
+          <li>Is a <code>.ts</code> file - all the same rules apply</li>
+          <li class="fragment">Use when dealing with external code</li>
+        </ul>
       </div>
     </section>
 
@@ -305,11 +326,27 @@ namespace zoo {
     </section>
 
     <section>
-      <h2>Difference between <code>.d.ts</code> and <code>.ts</code></h2>
-    </section>
+      <h2>The <code>declare</code> keyword</h2>
+      <blockquote>
+        The TypeScript <b>declare</b> keyword is used to declare variables that may not have originated from a TypeScript file.
+      </blockquote>
+      <ul>
+        <li>All variables <em>inside</em> <code>.ts</code> files are either exported or invisible</li>
+        <li>Global Scope</li>
+        <li>Examples: jQuery <code>$</code>, Google Analytics <code>ga</code></li>
+      </ul>
+      <div class="fragment">
+        <code>ga.js</code>
+        <pre class="lang-js"><code>window.ga = ga || [];</code></pre>
+      </div>
+      <div class="fragment">
+        <code>analytics.ts</code>
+        <pre class="lang-ts"><code>ga.push('pageview');      // error TS2304: Cannot find name 'ga'.
 
-    <section>
-      <h2>What is <code>declare</code>?</h2>
+declare var ga: string[];
+ga.push('pageview');      // OK
+</code></pre>
+      </div>
     </section>
 
     <section>
@@ -340,6 +377,35 @@ expect(testElement).toBePresent();</code></pre>
 }</code></pre>
     </section>
 
+    <section>
+      <h2>Overloading</h2>
+      <pre class="lang-ts"><code>export function matchRequest&lt;T = any&gt;(
+  url: string, queryParams?: Params
+): HttpRequestMatcher&lt;T&gt;;
+
+export function matchRequest&lt;T = any&gt;(
+  url: string, method: QueryRequestMethod, queryParams?: Params
+): HttpRequestMatcher&lt;T&gt;;
+
+export function matchRequest&lt;T = any&gt;(
+  url: string, method: BodyRequestMethod, body?: any
+): HttpRequestMatcher&lt;T&gt;;
+
+export function matchRequest&lt;T = any&gt;(
+  config: HttpRequestMatcherConfig
+): HttpRequestMatcher&lt;T&gt;;
+
+export function matchRequest&lt;T = any&gt;(
+  urlOrConfig: string | HttpRequestMatcherConfig,
+  methodOrQueryParams?: RequestMethod | Params,
+  queryParamsOrBody?: Params | any
+
+): HttpRequestMatcher&lt;T&gt; {
+  ...
+}
+      </code></pre>
+    </section>
+    
     <section>
       <h2>Tools: Type Unions</h2>
       <pre class="lang-ts"><code>type Direction = 'right' | 'left';</code></pre>
@@ -382,12 +448,6 @@ class OrderService {
       </ul>
     </section>
 
-    <!-- Slides that need to appear -->
-
-    <section>
-      <h2>@types / DefinitelyTyped</h2>
-    </section>
-
   </div>
 </div>
 
@@ -398,6 +458,12 @@ class OrderService {
 
   export = Sinon;
   export as namespace sinon;
+
+  <!-- Slides that need to appear -->
+
+  <section>
+    <h2>@types / DefinitelyTyped</h2>
+  </section>
 </div>
 
 <script src="node_modules/reveal.js/lib/js/head.min.js"></script>
