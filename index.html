@@ -464,22 +464,185 @@ orderService.getOrder(orderId); // OK</code></pre>
       </section>
     </section>
 
+    <section>
+      <section>
+        <h2>Example: <code>node-uuid</code></h2>
+        <p>https://github.com/broofa/node-uuid</p>
+        <h3>API</h3>
+        <pre class="lang-plain"><code style="max-height: initial">uuid()
+  Generates a v4 UUID.
+
+uuid.v1([options [, buffer [, offset]]])
+  Generate and return a RFC4122 v1 (timestamp-based) UUID.
+
+uuid.v4([options [, buffer [, offset]]])
+  Generate and return a RFC4122 v4 UUID.
+
+  options - (Object)
+    random - (Number[16]) Array of 16 numbers (0-255) to use instead of random ones
+    rng - (Function) Random # generator to use.
+        Set to one of the built-in generators:
+          - uuid.mathRNG (all platforms),
+          - uuid.nodeRNG (node.js only),
+          - uuid.whatwgRNG (WebKit only),
+          - custom function that returns an array[16] of byte values.
+    buffer - (Array | Buffer) Array or buffer where UUID bytes are to be written.
+
+  offset - (Number) Starting index in buffer at which to begin writing.</code></pre>
+      </section>
+
+      <section>
+        <pre class="lang-ts"><code>function uuid(): string;</code></pre>
+        <pre class="lang-ts fragment"><code>function uuid(): typeof uuid.v4;
+
+namespace uuid {
+  function v1(): string;
+  function v4(): string;
+}</code></pre>
+      </section>
+
+      <section>
+        <pre class="lang-ts"><code>function uuid(): string;
+namespace uuid {
+  // Placeholders until we figure them out
+  type Rng = any;
+  type OutputBuffer = any;
+
+  interface V4Options {
+    random?: number[];
+    rng?: Rng;
+    buffer?: OutputBuffer;
+  }
+
+  function v1(): string;
+  function v4(
+    options?: V4Options,
+    buffer?: OutputBuffer,
+    offset?: number
+  ): string | OutputBuffer;
+</code></pre>
+      </section>
+
+      <section>
+        <pre class="lang-ts"><code style="max-height: initial;">/// &lt;reference types="node" /&gt;
+// Imports all types from @types/node/index.d.ts
+
+function uuid(): string;
+namespace uuid {
+  type Rng = any;
+  type OutputBuffer = number[] | Buffer; // Imported from node
+
+  interface V4Options {
+    random?: number[];
+    rng?: Rng;
+    buffer?: OutputBuffer;
+  }
+
+  function v1(): string;
+  function v4(
+    options?: V4Options,
+    buffer?: OutputBuffer,
+    offset?: number
+  ): string | OutputBuffer;
+</code></pre>
+      </section>
+
+      <section>
+        <pre class="lang-ts"><code style="max-height: initial;">/// &lt;reference types="node" /&gt;
+
+function uuid(): string;
+namespace uuid {
+  type Rng = any;
+  type OutputBuffer = number[] | Buffer;
+
+  interface V4Options {
+    random?: number[];
+    rng?: Rng;
+  }
+  interface V4WithBufferOptions extends V4Options {
+    buffer: OutputBuffer;
+  }
+
+  function v1(): string;
+
+  function v4(options?: V4Options): string;
+  function v4(options: V4WithBufferOptions): OutputBuffer;
+  function v4(options: V4Options, buffer: OutputBuffer, offset?: number): OutputBuffer;
+}</code></pre>
+      </section>
+
+      <section>
+        <pre class="lang-ts"><code style="max-height: initial;">/// &lt;reference types="node" /&gt;
+
+function uuid(): string;
+namespace uuid {
+  type Rng = any;
+  type OutputBuffer = number[] | Buffer;
+
+  interface V4Options {
+    random?: number[];
+    rng?: Rng;
+  }
+  interface V4WithBufferOptions&lt;T extends OutputBuffer&gt; extends V4Options {
+    buffer: T;
+  }
+
+  function v1(): string;
+
+  function v4(options?: V4Options): string;
+  function v4&lt;T extends OutputBuffer&gt;(options: V4WithBufferOptions&lt;T&gt;): T;
+  unction v4&lt;T extends OutputBuffer&gt;(options: V4Options, buffer: T, offset?: number): T;
+}</code></pre>
+      </section>
+
+      <section>
+        <pre class="lang-ts"><code style="max-height: initial;">/// &lt;reference types="node" /&gt;
+
+const uuid: typeof uuid.v4;
+namespace uuid {
+  interface ProvidedRng {
+    __internal_rng_phantom__: never;
+  }
+  const mathRNG: ProvidedRng;
+  const nodeRNG: ProvidedRng;
+  const whatwgRNG: ProvidedRng;
+  interface CustomRng { (): number[] } // Returns number[16];
+
+  type Rng = ProvidedRng | CustomRng;
+  type OutputBuffer = number[] | Buffer;
+
+  interface V4Options {
+    random?: number[];
+    rng?: Rng;
+  }
+  interface V4WithBufferOptions&lt;T extends OutputBuffer&gt; extends V4Options {
+    buffer: T;
+  }
+
+  function v1(): string;
+
+  function v4(options?: V4Options): string;
+  function v4&lt;T extends OutputBuffer&gt;(options: V4WithBufferOptions&lt;T&gt;): T;
+  function v4&lt;T extends OutputBuffer&gt;(options: V4Options, buffer: T, offset?: number): T;
+}
+
+export = uuid;</code></pre>
+      </section>
+
+      <section>
+        <h2>Result</h2>
+        <img src="assets/snippets/uuid.png">
+      </section>
+    </section>
+
+    <section>
+      <h2>@types / DefinitelyTyped</h2>
+      <ul>
+        <li>https://github.com/DefinitelyTyped/DefinitelyTyped</li>
+        <li><code>yarn add -D @types/&lt;package&gt;</code></li>
+      </ul>
+    </section>
   </div>
-</div>
-
-<div class="display: none">
-  TODO
-
-  declare var Sinon: Sinon.SinonStatic;
-
-  export = Sinon;
-  export as namespace sinon;
-
-  <!-- Slides that need to appear -->
-
-  <section>
-    <h2>@types / DefinitelyTyped</h2>
-  </section>
 </div>
 
 <script src="node_modules/reveal.js/lib/js/head.min.js"></script>
