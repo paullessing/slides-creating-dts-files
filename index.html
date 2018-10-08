@@ -57,14 +57,19 @@
     </section>
 
     <section>
-      <h2>Getting Started</h2>
-      <ul class="content">
-        <li><code>tsc -d &lt;file&gt;.ts</code></li>
-      </ul>
-      <div>
-        <img src="assets/snippets/printer.ts.png" width="449" style="vertical-align: top">
-        <img src="assets/snippets/printer.d.ts.png" width="396" style="vertical-align: top">
-      </div>
+      <section>
+        <h2>Getting Started</h2>
+        <div>
+          <img src="assets/snippets/printer.ts.png" width="80%" style="vertical-align: top">
+        </div>
+      </section>
+      <section>
+        <h2>Getting Started</h2>
+        <ul class="content">
+          <li><code>tsc -d &lt;file&gt;.ts</code></li>
+        </ul>
+        <img src="assets/snippets/printer.d.ts.png" width="80%" style="vertical-align: top">
+      </section>
     </section>
 
     <section>
@@ -82,7 +87,7 @@
           <li>Automatically imported</li>
           <li>Imported <em>by name</em></li>
           <li><code>index.d.ts</code> in package.json</li>
-          <li>Must <code>declare</code> everything at top level</li>
+          <li>Must <code>declare</code> everything at top level</li><!-- TODO sure about this? -->
           <li>Is a <code>.ts</code> file - all the same rules apply</li>
           <li class="fragment">Use when dealing with external code</li>
         </ul>
@@ -105,9 +110,8 @@
       </div>
       <div class="fragment">
         <code>analytics.ts</code>
-        <pre class="lang-ts"><code>ga.push('pageview');      // error TS2304: Cannot find name 'ga'.
-
-declare const ga: string[];
+        <pre class="lang-ts"><code>ga.push('pageview');      // error TS2304: Cannot find name 'ga'.</code></pre>
+        <pre class="lang-ts"><code>declare const ga: string[];
 ga.push('pageview');      // OK
 </code></pre>
       </div>
@@ -125,12 +129,19 @@ ga.push('pageview');      // OK
     <section>
       <h2>Concepts: Types</h2>
       <ul class="content">
-        <li><code><b>type</b> T = number | string</code></li>
-        <li><code><b>interface</b> I { v: T }</code></li>
-        <li><code><b>class</b> C {}</code></li>
-        <li><code><b>enum</b> E { A, B, C }</code></li>
-        <li><code>import { T } from 'm'</code></li>
+        <li>Typescript only</li>
+        <li>Compiled Out</li>
       </ul>
+      <div class="fragment">
+        <h3>Types:</h3>
+        <ul class="content">
+          <li><code><b>type</b> T = number | string</code></li>
+          <li><code><b>interface</b> I { v: T }</code></li>
+          <li><code><b>class</b> C {}</code></li>
+          <li><code><b>enum</b> E { A, B, C }</code></li>
+          <li><code>import { T } from 'm'</code></li>
+        </ul>
+      </div>
       <aside class="notes">
         Things that are <em>interfaces</em>, compiled out by TypeScript
       </aside>
@@ -139,14 +150,21 @@ ga.push('pageview');      // OK
     <section>
       <h2>Concepts: Values</h2>
       <ul class="content">
-        <li><code><b>const</b> foo = 'bar' // let, var</code></li>
-        <li><code><b>function</b> hello()</code></li>
-        <li><code><b>enum</b> E { A, B, C }</code></li>
-        <li><code><b>class</b> C {}</code></li>
-        <li><code><b>namespace</b> n { const x }</code></li>
-        <li><code><b>module</b> m { const x }</code></li>
-        <li><code>import { <b>v</b> } from 'm' </code></li>
+        <li>Compiled to JavaScript</li>
+        <li>Can be referenced</li>
       </ul>
+      <div class="fragment">
+        <h3>Values:</h3>
+        <ul class="content">
+          <li><code><b>const</b> foo = 'bar' // let, var</code></li>
+          <li><code><b>function</b> hello()</code></li>
+          <li><code><b>enum</b> E { A, B, C }</code></li>
+          <li><code><b>class</b> C {}</code></li>
+          <li><code><b>namespace</b> n { const x }</code></li>
+          <li><code><b>module</b> m { const x }</code></li>
+          <li><code>import { <b>v</b> } from 'm' </code></li>
+        </ul>
+      </div>
 
       <aside class="notes">
         Things that stay behind when you compile your code
@@ -156,18 +174,28 @@ ga.push('pageview');      // OK
     <section>
       <h2>Namespaces</h2>
       <ul class="content">
-        <li>
-          <code>namespace N { interface I { v: T } }</code>
-          <ul>
-            <li><code>const x: A.B.C // Types</code></li>
-            <li><code>const x = A.B.x // Values</code></li>
-          </ul>
-        </li>
+        <li>Groups of types and/or values</li>
+        <li>Like <i>objects</i> containing entries</li>
+      </ul>
+      <pre class="lang-ts fragment"><code>namespace N {
+  interface I {
+    v: T;
+  }
+  class C {
+    static const X = 'x';
+  }
+}
+</code></pre>
+      <ul class="content fragment">
+        <li><code>const iThing: N.I // Types</code></li>
+        <li><code>const instance: N.C // Types</code></li>
+        <li><code>const x = N.C.x // Values</code></li>
+        <li><code>const C = N.C // Values</code></li>
       </ul>
     </section>
 
     <section>
-      <h2>Both Value <em>and</em> Type</h2>
+      <h2>Things Can Be Value <em>and</em> Type</h2>
       <ul class="content">
         <li>
           Class
@@ -175,6 +203,8 @@ ga.push('pageview');      // OK
             <li>Interface</li>
             <li>Constructor function</li>
           </ul>
+          <pre class="lang-ts"><code>const p: Promise;
+p = new Promise();</code></pre>
         </li>
         <li>
           Enum
@@ -211,7 +241,7 @@ ga.push('pageview');      // OK
     </section>
 
     <section>
-      <h2>So what does <em>this</em> mean?</h2>
+      <h2>Example: What does <em>this</em> mean?</h2>
       <img src="assets/snippets/refers-only-to-a-type.png" width="60%" style="vertical-align: top">
       <ul>
         <li class="fragment">
