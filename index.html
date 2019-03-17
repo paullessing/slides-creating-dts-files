@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>I Hereby Declare</title>
+  <title>Anything to Declare?</title>
   <link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
   <link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
   <link rel="stylesheet" href="assets/theme.css">
@@ -13,7 +13,7 @@
 
     <section class="center">
       <div class="content content--center">
-        <h1>I Hereby<br />Declare</h1>
+        <h1>Anything to Declare?</h1>
         <h2 style="text-align: center">Understanding Typescript Definition Files</h2>
       </div>
     </section>
@@ -57,38 +57,99 @@
     </section>
 
     <section>
-      <section>
-        <h2>Getting Started</h2>
-        <div>
-          <img src="assets/snippets/printer.ts.png" width="80%" style="vertical-align: top">
-        </div>
-      </section>
-      <section>
-        <h2>Getting Started</h2>
-        <ul class="content">
-          <li><code>tsc -d &lt;file&gt;.ts</code></li>
-        </ul>
-        <img src="assets/snippets/printer.d.ts.png" width="80%" style="vertical-align: top">
-      </section>
+      <h2>Getting Started</h2>
+      <p style="font-size: 1em; margin-bottom: 0.2em">Web Push Notifications: Timely, Relevant, and Precise</p>
+      <a style="font-size: 0.8em;" href="https://developers.google.com/web/fundamentals/push-notifications/">https://developers.google.com/web/fundamentals/push-notifications/</a>
+      <div class="fragment">
+        <img src="assets/getting-started-web-push-npm.png" width="80%" style="vertical-align: top">
+      </div>
     </section>
 
     <section>
-      <h2>File Endings</h2>
+      <h2>Package Overview</h2>
+      <div class="content">
+        <pre class="lang-js"><code style="max-height:initial">const webpush = require('web-push');
+
+// Generate some keys
+webpush
+  .generateVAPIDKeys();
+
+// Encrypt a payload
+webpush
+  .encrypt(userPublicKey, userAuth, payload, contentEncoding);
+
+// Set config
+webpush
+  .setGCMAPIKey(apiKey);
+
+// Generate headers
+webpush
+  .getVapidHeaders(audience, subject, publicKey, privateKey, contentEncoding, expiration);
+
+// Generate Metadata
+webpush
+  .generateRequestDetails(pushSubscription, payload, options);
+
+// Send a notification
+webpush
+  .sendNotification(pushSubscription, payload, options);
+
+// Constants
+webpush.supportedContentEncodings.AES_GCM
+webpush.supportedContentEncodings.AES_128_GCM</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Step 0: Auto-Generate</h2>
       <div>
-        <h3>.ts</h3>
+        <img src="assets/snippets/printer.ts.png" width="80%" style="vertical-align: top">
+      </div>
+    </section>
+    <section>
+      <h2>Step 0: Auto-Generated Code</h2>
+      <ul class="content">
+        <li><code>tsc -d &lt;file&gt;.ts</code></li>
+      </ul>
+      <img src="assets/snippets/printer.d.ts.short.png" width="80%" style="vertical-align: top">
+      <ul class="content fragment">
+        <li>Have to have TypeScript files</li>
+        <li>Rough outline only</li>
+        <li>Good starting point</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Step 1: Read the Docs</h2>
+      <div>
+        <img src="assets/getting-started-github-docs.png" width="80%" style="vertical-align: top">
+      </div>
+    </section>
+
+    <section>
+      <h2>Step 2: Create a <code>.d.ts</code> file</h2>
+      <ul class="content">
+        <li>What <i>is</i> a <code>.d.ts</code> file?</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Differences between <code>.ts</code> and <code>.d.ts</code></h2>
+      <div>
+        <h3 class="fragment">.ts</h3>
         <ul class="content fragment">
           <li>Explicity imported</li>
           <li>Contains code and/or declarations</li>
         </ul>
       </div>
       <div>
-        <h3>.d.ts</h3>
+        <h3 class="fragment">.d.ts</h3>
         <ul class="content fragment">
-          <li>Automatically imported</li>
+          <li>Automatically imported ("Ambient")</li>
           <li>Imported <em>by name</em></li>
           <li><code>index.d.ts</code> in package.json</li>
-          <li>Must <code>declare</code> everything at top level</li><!-- TODO sure about this? -->
-          <li>Is a <code>.ts</code> file - all the same rules apply</li>
+          <li>Must <code>declare</code> everything at top level</li><!-- https://basarat.gitbooks.io/typescript/docs/types/ambient/d.ts.html -->
+          <li>Still a <code>.ts</code> file - all the same rules apply</li>
           <li class="fragment">Use when dealing with external code</li>
         </ul>
       </div>
@@ -96,26 +157,112 @@
 
     <section>
       <h2>The <code>declare</code> keyword</h2>
-      <blockquote>
+      <blockquote style="transform: translateX(-50px)">
         The TypeScript <b>declare</b> keyword is used to declare variables that may not have originated from a TypeScript file.
       </blockquote>
       <ul>
         <li>All variables <em>inside</em> <code>.ts</code> files are either exported or invisible</li>
-        <li>Global Scope</li>
-        <li>Examples: jQuery <code>$</code>, Google Analytics <code>ga</code></li>
+        <li><code>declare</code> indicates global scope</li>
       </ul>
-      <div class="fragment">
+    </section>
+
+    <section>
+      <h2>Example <code>declare</code>: Google Analytics</h2>
+      <div>
         <code>ga.js</code>
         <pre class="lang-js"><code>window.ga = ga || [];</code></pre>
       </div>
       <div class="fragment">
         <code>analytics.ts</code>
         <pre class="lang-ts"><code>ga.push('pageview');      // error TS2304: Cannot find name 'ga'.</code></pre>
+      </div>
+      <div class="fragment">
         <pre class="lang-ts"><code>declare const ga: string[];
 ga.push('pageview');      // OK
 </code></pre>
       </div>
     </section>
+
+    <section>
+      <h2>Starting with the easy ones</h2>
+      <img src="assets/generate-vapid-keys-github.png" />
+      <div class="fragment">
+        <pre class="lang-ts"><code>export interface VapidKeys {
+  publicKey: string;
+  privateKey: string;
+}
+
+export function generateVAPIDKeys(): VapidKeys;</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Starting with the easy ones</h2>
+      <img src="assets/set-gcm-github.png" />
+      <div class="fragment">
+        <pre class="lang-ts"><code>export function setGCMAPIKey(apiKey: string): void</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Important: Read the Source</h2>
+      <img src="assets/gcm-key-source-highlight.png" />
+      <div class="fragment">
+        <pre class="lang-ts"><code>export function setGCMAPIKey(apiKey: string | null): void</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Let's get more interesting</h2>
+      <img src="assets/encrypt.png" />
+      <div class="fragment">
+        <pre class="lang-ts"><code>export function encrypt(
+  userPublicKey: string,
+  userAuth: string,
+  payload: string,
+  contentEncoding: string
+): Promise&lt;?&gt;</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2><i>Always</i> check the source</h2>
+      <img src="assets/encrypt-source.png" />
+      <div class="fragment">
+        <pre class="lang-ts"><code>export function encrypt(
+  userPublicKey: string,
+  userAuth: string,
+  payload: string | Buffer,
+  contentEncoding: string
+): EncryptionResult</code></pre>
+      </div>
+      <div class="fragment">
+        <pre class="lang-ts"><code>export interface EncryptionResult {
+    localPublicKey: string;
+    salt: string;
+    cipherText: Buffer;
+}</code></pre></div>
+    </section>
+
+    <section>
+      <h2>Declaring Constants</h2>
+      <img src="assets/webpush-constants.png" />
+      <ul>
+        <li>How to declare this?</li>
+      </ul>
+      <div class="fragment">
+        <pre class="lang-ts"><code>export type ContentEncoding = 'aesgcm' | 'aes128gcm';</code></pre>
+      </div>
+      <div class="fragment">
+        <pre class="lang-ts"><code>export const supportedContentEncodings: {
+  readonly AES_GCM:     'aesgcm'    & ContentEncoding;
+  readonly AES_128_GCM: 'aws128gcm' & ContentEncoding;
+};</code></pre></div>
+    </section>
+
+
+
+
 
     <section>
       <h2>Concepts</h2>
