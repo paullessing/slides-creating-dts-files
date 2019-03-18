@@ -279,6 +279,8 @@ body {
   width: auto;
   margin-left: 0;
   margin-right: 0; }
+  .reveal pre code {
+    max-height: none; }
   .reveal pre.full {
     width: 100%; }
 
@@ -296,14 +298,15 @@ body {
 .reveal section img {
   border: none; }
 
+.reveal .controls {
+  display: none !important; }
+
 .reveal .controls .navigate-down.highlight {
   animation: none; }
 
-.content {
-  padding: 1em; }
-  .content--center {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; }
+.reveal .content--center {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }

@@ -128,7 +128,7 @@ webpush.supportedContentEncodings.AES_128_GCM</code></pre>
 
     <section>
       <h2>Step 2: Create a <code>.d.ts</code> file</h2>
-      <ul class="content">
+      <ul class="content fragment">
         <li>What <i>is</i> a <code>.d.ts</code> file?</li>
       </ul>
     </section>
@@ -148,7 +148,7 @@ webpush.supportedContentEncodings.AES_128_GCM</code></pre>
           <li>Automatically imported ("Ambient")</li>
           <li>Imported <em>by name</em></li>
           <li><code>index.d.ts</code> in package.json</li>
-          <li>Must <code>declare</code> everything at top level</li><!-- https://basarat.gitbooks.io/typescript/docs/types/ambient/d.ts.html -->
+          <li>Must <code>export</code> everything at top level</li><!-- https://basarat.gitbooks.io/typescript/docs/types/ambient/d.ts.html -->
           <li>Still a <code>.ts</code> file - all the same rules apply</li>
           <li class="fragment">Use when dealing with external code</li>
         </ul>
@@ -184,7 +184,7 @@ ga.push('pageview');      // OK
     </section>
 
     <section>
-      <h2>Starting with the easy ones</h2>
+      <h2>Step 3: Start with the easy ones</h2>
       <img src="assets/generate-vapid-keys-github.png" />
       <div class="fragment">
         <pre class="lang-ts"><code>export interface VapidKeys {
@@ -197,7 +197,7 @@ export function generateVAPIDKeys(): VapidKeys;</code></pre>
     </section>
 
     <section>
-      <h2>Starting with the easy ones</h2>
+      <h2>Step 3: Start with the easy ones</h2>
       <img src="assets/set-gcm-github.png" />
       <div class="fragment">
         <pre class="lang-ts"><code>export function setGCMAPIKey(apiKey: string): void</code></pre>
@@ -258,65 +258,269 @@ export function generateVAPIDKeys(): VapidKeys;</code></pre>
   readonly AES_GCM:     'aesgcm'    & ContentEncoding;
   readonly AES_128_GCM: 'aws128gcm' & ContentEncoding;
 };</code></pre></div>
-    </section>
-
-
-
-
-
-    <section>
-      <h2>Concepts</h2>
-      <ul class="content">
-        <li>Type</li>
-        <li>Value</li>
-        <li>Namespace</li>
+      <ul class="fragment">
+        <li>Note: Not actually a <code>const</code>!</li>
       </ul>
     </section>
 
+    <section class="center">
+      <div class="content content--center">
+        <h1><span style="font-size: 0.8em">Types vs Values</span></h1>
+      </div>
+    </section>
+
     <section>
-      <h2>Concepts: Types</h2>
-      <ul class="content">
+      <h2>Types vs Values</h2>
+      <h3 class="fragment">Types</h3>
+      <ul class="content fragment">
         <li>Typescript only</li>
         <li>Compiled Out</li>
       </ul>
-      <div class="fragment">
-        <h3>Types:</h3>
-        <ul class="content">
-          <li><code><b>type</b> T = number | string</code></li>
-          <li><code><b>interface</b> I { v: T }</code></li>
-          <li><code><b>class</b> C {}</code></li>
-          <li><code><b>enum</b> E { A, B, C }</code></li>
-          <li><code>import { T } from 'm'</code></li>
-        </ul>
-      </div>
+
+      <h3 class="fragment">Values</h3>
+      <ul class="content fragment">
+        <li>Compiled to JavaScript</li>
+        <li>Can be assigned in JS</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Examples</h2>
+      <h3 class="fragment">Types</h3>
+      <ul class="content fragment">
+        <li><code><b>type</b> T = number | string</code></li>
+        <li><code><b>interface</b> I {}</code></li>
+        <li><code>import { <b>T</b>, <b>I</b> } from 'm'</code></li>
+      </ul>
+
+      <h3 class="fragment">Values</h3>
+      <ul class="content fragment">
+        <li><code><b>const</b> foo = 'bar' // let, var</code></li>
+        <li><code><b>function</b> hello()</code></li>
+        <li><code><b>namespace</b> n { const x }</code></li>
+        <li><code><b>module</b> m { const x }</code></li>
+        <li><code>import { <b>v</b> } from 'm' </code></li>
+      </ul>
+
       <aside class="notes">
-        Things that are <em>interfaces</em>, compiled out by TypeScript
+        Types: Things that are <em>interfaces</em>, compiled out by TypeScript<br/>
+        Values: Things that stay behind when you compile<br>
+        Right hand side of assignment vs left hand side of assignment
       </aside>
     </section>
 
     <section>
-      <h2>Concepts: Values</h2>
-      <ul class="content">
-        <li>Compiled to JavaScript</li>
-        <li>Can be referenced</li>
-      </ul>
-      <div class="fragment">
-        <h3>Values:</h3>
-        <ul class="content">
-          <li><code><b>const</b> foo = 'bar' // let, var</code></li>
-          <li><code><b>function</b> hello()</code></li>
-          <li><code><b>enum</b> E { A, B, C }</code></li>
-          <li><code><b>class</b> C {}</code></li>
-          <li><code><b>namespace</b> n { const x }</code></li>
-          <li><code><b>module</b> m { const x }</code></li>
-          <li><code>import { <b>v</b> } from 'm' </code></li>
-        </ul>
-      </div>
+      <h2>Examples</h2>
+      <pre class="lang-ts fragment"><code>Type -------v</code></pre>
+      <pre class="lang-ts         "><code>  const me: User = { name: 'Paul Lessing' };</code></pre>
+      <pre class="lang-ts fragment"><code>Value --^----------^</code></pre>
 
-      <aside class="notes">
-        Things that stay behind when you compile your code
-      </aside>
+      <div class="fragment" style="margin-top: 2em">
+        <pre class="lang-ts fragment"><code>Type ----------------v-------------v------------v</code></pre>
+        <pre class="lang-ts         "><code>function hash(value: Buffer, salt: string): md5.HashResult {}</code></pre>
+        <pre class="lang-ts fragment"><code>Value ---^----^--------------^--------------?</code></pre>
+      </div>
     </section>
+
+    <section>
+      <h2>Namespaces</h2>
+      <ul class="content">
+        <li>Groups of types and/or values</li>
+        <li>Like <i>objects</i> containing entries</li>
+      </ul>
+      <pre class="lang-ts fragment"><code>// File: moment.ts
+namespace moment {
+  interface Duration {
+    seconds: number;
+  }
+  class Moment {
+    static const version = '1.0';
+  }
+  const HOURS_PER_DAY = 24;
+}
+</code></pre>
+      <ul class="content">
+        <li class="fragment"><code>const twoDays: moment.Duration = ... // Type</code></li>
+        <li class="fragment"><code>const now: moment.Moment = ... // Type</code></li>
+        <li class="fragment"><code>const hours = moment.HOURS_PER_DAY // Value</code></li>
+        <li class="fragment"><code>const version = moment.Moment.version // Value</code></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Can something be Value <em>and</em> Type?</h2>
+      <ul class="content">
+        <li class="fragment">
+          Class
+          <pre class="lang-ts"><code>const p: Promise;
+p = new Promise();</code></pre>
+          <ul class="fragment">
+            <li>Interface</li>
+            <li>Constructor function</li>
+          </ul>
+        </li>
+        <li class="fragment">
+          Enum
+          <pre class="lang-ts"><code>const bestDay: DaysOfWeek;
+bestDay = DaysOfWeek.SATURDAY;</code></pre>
+          <ul class="fragment">
+            <li>Type</li>
+            <li>Enum object</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Back to our code</h2>
+      <div class="fragment">
+        <pre class="lang-ts"><code>export function encrypt(
+  userPublicKey: string,
+  userAuth: string,
+  payload: string | Buffer,
+  contentEncoding: ContentEncoding
+): EncryptionResult;
+
+export type ContentEncoding = 'aesgcm' | 'aes128gcm';
+
+export const supportedContentEncodings: {
+  readonly AES_GCM:     'aesgcm'    & ContentEncoding;
+  readonly AES_128_GCM: 'aws128gcm' & ContentEncoding;
+};</code></pre></div>
+      <ul class="fragment content">
+        <li>Better type safety for <code>contentEncoding</code></li>
+        <li>Exported declaration for <code>supportedContentEncodings</code></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Complex Behaviours</h2>
+      <img src="assets/generate-request-details-code-github.png" />
+    </section>
+
+    <section>
+      <h2>Complex Behaviours</h2>
+      <pre class="lang-ts"><code>export interface PushSubscription {
+  ...
+}
+
+export interface RequestOptions {
+  ...
+}
+
+export interface RequestDetails {
+  method: 'POST';
+  headers: Headers;
+  body: Buffer | null;
+  endpoint: string;
+  proxy?: string;
+}
+
+
+export function generateRequestDetails(
+  subscription: PushSubscription,
+  payload?: string | Buffer,
+  options?: RequestOptions
+): RequestDetails;</code></pre>
+    </section>
+
+    <section>
+      <h2>Complex Behaviours</h2>
+      <img src="assets/generate-docs-github.png" />
+      <ul>
+        <li>How to model this behaviour?</li>
+        <li>Want to be as helpful as possible</li>
+        <li>Overloading</li>
+      </ul>
+    </section>
+
+    <!-- TODO introduce overloading concepts -->
+    <section>
+      <pre class="lang-ts fragment"><code>// Partial declaration
+export function generateRequestDetails(subscription: PushSubscription,
+  payload?: null,
+  options?: RequestOptions
+): RequestDetails & { body: null };
+
+// Partial declaration
+export function generateRequestDetails(subscription: PushSubscription,
+  payload?: string | Buffer,
+  options?: RequestOptions
+): RequestDetails & { body: Buffer };
+
+// Complete declaration
+export function generateRequestDetails(subscription: PushSubscription,
+  payload?: string | Buffer,
+  options?: RequestOptions
+): RequestDetails;</code></pre>
+    </section>
+
+    <!----------------------------------------------------
+                             FIN
+      ----------------------------------------------------!>
+    <section class="center">
+      <div class="content content--center">
+        <h1><span>FIN</span></h1>
+      </div>
+    </section>
+
+    <!--<section>-->
+      <!--<h2>Concepts</h2>-->
+      <!--<ul class="content">-->
+        <!--<li>Type</li>-->
+        <!--<li>Value</li>-->
+        <!--<li>Namespace</li>-->
+      <!--</ul>-->
+    <!--</section>-->
+
+    <!--<section>-->
+      <!--<h2>Types</h2>-->
+      <!--<ul class="content">-->
+        <!--<li>Typescript only</li>-->
+        <!--<li>Compiled Out</li>-->
+      <!--</ul>-->
+      <!--<div class="fragment">-->
+        <!--<h3>Types:</h3>-->
+        <!--<ul class="content">-->
+          <!--<li><code><b>type</b> T = number | string</code></li>-->
+          <!--<li><code><b>interface</b> I { v: T }</code></li>-->
+          <!--<li><code><b>class</b> C {}</code></li>-->
+          <!--<li><code><b>enum</b> E { A, B, C }</code></li>-->
+          <!--<li><code>import { T } from 'm'</code></li>-->
+        <!--</ul>-->
+      <!--</div>-->
+      <!--<aside class="notes">-->
+        <!--Things that are <em>interfaces</em>, compiled out by TypeScript-->
+      <!--</aside>-->
+    <!--</section>-->
+
+
+
+
+
+    <!--<section>-->
+      <!--<h2>Concepts: Values</h2>-->
+      <!--<ul class="content">-->
+        <!--<li>Compiled to JavaScript</li>-->
+        <!--<li>Can be referenced</li>-->
+      <!--</ul>-->
+      <!--<div class="fragment">-->
+        <!--<h3>Values:</h3>-->
+        <!--<ul class="content">-->
+          <!--<li><code><b>const</b> foo = 'bar' // let, var</code></li>-->
+          <!--<li><code><b>function</b> hello()</code></li>-->
+          <!--<li><code><b>enum</b> E { A, B, C }</code></li>-->
+          <!--<li><code><b>class</b> C {}</code></li>-->
+          <!--<li><code><b>namespace</b> n { const x }</code></li>-->
+          <!--<li><code><b>module</b> m { const x }</code></li>-->
+          <!--<li><code>import { <b>v</b> } from 'm' </code></li>-->
+        <!--</ul>-->
+      <!--</div>-->
+
+      <!--<aside class="notes">-->
+        <!--Things that stay behind when you compile your code-->
+      <!--</aside>-->
+    <!--</section>-->
 
     <section>
       <h2>Namespaces</h2>
@@ -817,6 +1021,8 @@ export = uuid;</code></pre>
         <li><code>yarn add -D @types/&lt;package&gt;</code></li>
       </ul>
     </section>
+
+    <!-- https://www.typescriptlang.org/docs/handbook/declaration-files/deep-dive.html-->
   </div>
 </div>
 

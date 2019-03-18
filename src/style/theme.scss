@@ -72,6 +72,10 @@ $linkColor: #e7ad52;
     margin-left: 0;
     margin-right: 0;
 
+    code {
+      max-height: none;
+    }
+
     &.full {
       width: 100%;
     }
@@ -96,14 +100,15 @@ $linkColor: #e7ad52;
     }
   }
 
+  .controls {
+    display: none !important;
+  }
   .controls .navigate-down.highlight {
     animation: none;
   }
 }
 
-.content {
-  padding: 1em;
-
+.reveal .content {
   &--center {
     height: 100%;
     display: flex;
