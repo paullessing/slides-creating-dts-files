@@ -14,18 +14,20 @@
     <section class="center">
       <div class="content content--center">
         <h1>Anything to Declare?</h1>
-        <h2 style="text-align: center">Understanding Typescript Definition Files</h2>
+        <h2 style="text-align: center">How to write your own <code>@types</code></h2>
       </div>
     </section>
 
-    <!--<section hidden>-->
-      <!--<h2>About Me</h2>-->
-      <!--<ul class="content">-->
-        <!--<li>Paul Lessing</li>-->
-        <!--<li>City Pantry</li>-->
-        <!--<li>Angular, Node, Java, PHP</li>-->
-      <!--</ul>-->
-    <!--</section>-->
+    <section>
+      <h2>About Me</h2>
+      <ul class="content">
+        <li>Paul Lessing</li>
+        <li>City Pantry</li>
+        <li>Angular, Node, Java, <span style="font-size:0.2em">PHP</span></li>
+        <li>github.com/paullessing</li>
+        <li>Medium, Twitter: @P_Lessing</li>
+      </ul>
+    </section>
 
     <section>
       <h2>What are <code>.d.ts</code> files?</h2>
@@ -48,7 +50,7 @@
         <li>Third-party Libraries</li>
         <li>Intellisense</li>
         <li>Publishing on npm</li>
-        <li class="fragment">Applications for regular <code>.ts</code></li>
+        <li>Applications for regular <code>.ts</code></li>
       </ul>
 
       <aside class="notes">
@@ -134,6 +136,7 @@ webpush.supportedContentEncodings.AES_128_GCM</code></pre>
     </section>
 
     <section>
+      <!-- TODO this section needs cleaning up -->
       <h2>Differences between <code>.ts</code> and <code>.d.ts</code></h2>
       <div>
         <h3 class="fragment">.ts</h3>
@@ -155,6 +158,7 @@ webpush.supportedContentEncodings.AES_128_GCM</code></pre>
       </div>
     </section>
 
+    <!-- TODO is this relevant? -->
     <section>
       <h2>The <code>declare</code> keyword</h2>
       <blockquote style="transform: translateX(-50px)">
@@ -238,9 +242,9 @@ export function generateVAPIDKeys(): VapidKeys;</code></pre>
       </div>
       <div class="fragment">
         <pre class="lang-ts"><code>export interface EncryptionResult {
-    localPublicKey: string;
-    salt: string;
-    cipherText: Buffer;
+  localPublicKey: string;
+  salt: string;
+  cipherText: Buffer;
 }</code></pre></div>
     </section>
 
@@ -280,6 +284,7 @@ export function generateVAPIDKeys(): VapidKeys;</code></pre>
       <h3 class="fragment">Values</h3>
       <ul class="content fragment">
         <li>Compiled to JavaScript</li>
+        <!-- TODO explain? -->
         <li>Can be assigned in JS</li>
       </ul>
     </section>
@@ -408,6 +413,10 @@ export interface RequestOptions {
   ...
 }
 
+export interface Headers {
+  [header: string]: string;
+}
+
 export interface RequestDetails {
   method: 'POST';
   headers: Headers;
@@ -441,20 +450,21 @@ export function generateRequestDetails(
         <li>Multiple additional declarations without bodies</li>
         <li>Compiler infers which one applies</li>
       </ul>
-      <pre class="lang-ts fragment"><code>function safeUppercase(value: string): string;
+      <div class="fragment">
+        <pre class="lang-ts fragment"><code>function safeUppercase(value: string): string;
 function safeUppercase(value: null): null;</code></pre>
-      <pre class="lang-ts"><code>function safeUppercase(value: string | null): string | null {
+        <pre class="lang-ts"><code>function safeUppercase(value: string | null): string | null {
   if (typeof value === 'string') {
     return value.toUppercase();
   } else {
     return null;
   }
 }</code></pre>
-      <pre class="lang-ts fragment"><code>const x: string = safeToUppercase('hello'); // OK
+        <pre class="lang-ts fragment"><code>const x: string = safeToUppercase('hello'); // OK
 const y: string = safeToUppercase(null); // Type 'null' is not assignable to type 'string'</code></pre>
+      </div>
     </section>
 
-    <!-- TODO introduce overloading concepts -->
     <section>
       <h2>Overloading <code>generateRequestDetails</code></h2>
       <pre class="lang-ts fragment"><code>export function generateRequestDetails(subscription: PushSubscription,
@@ -480,8 +490,12 @@ export interface RequestDetails {
     </section>
 
     <section>
-      <h2>Advanced Types</h2>
-      <ul class="content">
+      <h1 class="content content--center">Advanced Types</h1>
+    </section>
+
+    <section>
+      <h2>Subtypes of <code>string</code></h2>
+      <ul class="content fragment">
         <li>Remember: <code>'some-string'</code> is a type</li>
         <li>Overloading based on specific inputs</li>
         <li>Example: Event handling</li>
@@ -495,9 +509,15 @@ export interface RequestDetails {
         <pre class="lang-ts"><code>function on(eventName: string, handler: (event: Event) => void);</code></pre>
       </div>
     </section>
+
     <section>
-      <h2>Advanced Types: <code>getVapidHeaders</code></h2>
-      <pre class="lang-ts"><code>export function getVapidHeaders(
+      <h2>Implementing <code>getVapidHeaders</code></h2>
+      <img src="assets/get-vapid-headers-docs.png" />
+    </section>
+
+    <section>
+      <h2>Overloads for <code>getVapidHeaders</code></h2>
+      <pre class="lang-ts fragment"><code>export function getVapidHeaders(
   audience: string, subject: string, publicKey: string, privateKey: string,
   contentEncoding: 'aes128gcm', expiration?: number
 ): {
@@ -509,9 +529,8 @@ export function getVapidHeaders(
 ): {
     Authorization: string;
     'Crypto-Key': string;
-};
-
-export function getVapidHeaders(
+};</code></pre>
+      <pre class="lang-ts"><code>export function getVapidHeaders(
   audience: string, subject: string, publicKey: string, privateKey: string,
   contentEncoding: ContentEncoding, expiration?: number
 ): {
