@@ -35,10 +35,10 @@
     <section>
       <h2>Overview</h2>
       <ul class="content">
-        <li>Basics of <code>.d.ts</code> files</li>
         <li>
           Writing <code>@types</code> for a third-party package
           <ul>
+            <li>Basics of <code>.d.ts</code> files</li>
             <li>Types and Values</li>
             <li>Advanced Types & Patterns</li>
           </ul>
@@ -49,8 +49,28 @@
     </section>
 
     <section>
+      <h2>Getting Started</h2>
+      <p style="font-size: 1em; margin-bottom: 0.2em">Web Push Notifications: Timely, Relevant, and Precise</p>
+      <a style="font-size: 0.8em;" href="https://developers.google.com/web/fundamentals/push-notifications/">https://developers.google.com/web/fundamentals/push-notifications/</a>
+      <div class="fragment">
+        <img src="assets/getting-started-web-push-npm.png" width="80%" style="vertical-align: top">
+      </div>
+    </section>
+
+    <section>
+      <h2>Import the package</h2>
+      <img
+        class="fragment"
+        src="assets/snippets/no-intellisense.png"
+        width="80%" />
+      <p class="fragment">
+        No types! 😭
+      </p>
+    </section>
+
+    <section>
       <h2>What are these <code>@types</code>?</h2>
-      <ul class="content">
+      <ul class="content fragment">
         <li>TypeScript <em>definition</em> files: <code>.<b>d</b>.ts</code>
           <ul>
             <li>Similar to C header files (<code>.h</code>)</li>
@@ -62,12 +82,38 @@
     </section>
 
     <section>
+      <h2>Differences between <code>.ts</code> and <code>.d.ts</code></h2>
+      <div>
+        <h3 class="fragment">.ts</h3>
+        <ul class="content fragment">
+          <li>Explicity imported</li>
+          <li>Compiled to JavaScript</li>
+          <li>Contains code that is executed</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="fragment">.d.ts</h3>
+        <ul class="content fragment">
+          <li>
+            Automatically imported ("Ambient")
+            <ul>
+              <li>Imported <em>by name</em> or via <code>tsconfig.json</code></li>
+            </ul>
+          </li>
+          <li>Contain information about <em>other</em> code files</li>
+          <li>Must <code>export</code> everything at top level</li><!-- https://basarat.gitbooks.io/typescript/docs/types/ambient/d.ts.html -->
+          <li>Still a <code>.ts</code> file: (almost) all the same rules apply</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
       <h2>Why do I care?</h2>
       <ul class="content">
-        <li>Legacy code</li>
-        <li>Migration</li>
         <li>Third-party Libraries</li>
         <li>Intellisense</li>
+        <li>Legacy code</li>
+        <li>Migration</li>
         <li>Publishing on npm</li>
         <li>Applications for regular <code>.ts</code></li>
       </ul>
@@ -78,12 +124,17 @@
     </section>
 
     <section>
-      <h2>Getting Started</h2>
-      <p style="font-size: 1em; margin-bottom: 0.2em">Web Push Notifications: Timely, Relevant, and Precise</p>
-      <a style="font-size: 0.8em;" href="https://developers.google.com/web/fundamentals/push-notifications/">https://developers.google.com/web/fundamentals/push-notifications/</a>
-      <div class="fragment">
-        <img src="assets/getting-started-web-push-npm.png" width="80%" style="vertical-align: top">
-      </div>
+      <h2>DefinitelyTyped</h2>
+      <ul class="content fragment">
+        <li>https://github.com/DefinitelyTyped/DefinitelyTyped</li>
+        <li>Library of types</li>
+        <li>Published to npm as <code>@types/*</code></li>
+        <li>Open-source
+          <ul>
+            <li>Anyone can contribute</li>
+          </ul>
+        </li>
+      </ul>
     </section>
 
     <section>
@@ -146,42 +197,6 @@ webpush.supportedContentEncodings.AES_128_GCM</code></pre>
       <h2>Let's Read the Docs</h2>
       <div>
         <img src="assets/getting-started-github-docs.png" width="80%" style="vertical-align: top">
-      </div>
-    </section>
-
-    <section>
-      <h2>Create a <code>.d.ts</code> file</h2>
-      <ul class="content fragment">
-        <li>What <i>is</i> a <code>.d.ts</code> file?</li>
-        <li>How is it different from a <code>.td</code> file?</li>
-      </ul>
-    </section>
-
-    <!-- TODO this bit needs a better intro - it duplicates one of the first slides -->
-
-    <section>
-      <h2>Differences between <code>.ts</code> and <code>.d.ts</code></h2>
-      <div>
-        <h3 class="fragment">.ts</h3>
-        <ul class="content fragment">
-          <li>Explicity imported</li>
-          <li>Compiled to JavaScript</li>
-          <li>Contains code that is executed</li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="fragment">.d.ts</h3>
-        <ul class="content fragment">
-          <li>
-            Automatically imported ("Ambient")
-            <ul>
-              <li>Imported <em>by name</em> or via <code>tsconfig.json</code></li>
-            </ul>
-          </li>
-          <li>Contain information about <em>other</em> code files</li>
-          <li>Must <code>export</code> everything at top level</li><!-- https://basarat.gitbooks.io/typescript/docs/types/ambient/d.ts.html -->
-          <li>Still a <code>.ts</code> file: (almost) all the same rules apply</li>
-        </ul>
       </div>
     </section>
 
@@ -262,6 +277,7 @@ export function generateVAPIDKeys(): VapidKeys;</code></pre>
 };</code></pre></div>
       <ul class="fragment">
         <li>Note: Not actually a <code>const</code>!</li>
+        <li class="fragment">🤔 What does <b><code>const</code></b> <em>mean</em> inside <code>.d.ts</code>?</li>
       </ul>
     </section>
 
@@ -323,7 +339,11 @@ export function generateVAPIDKeys(): VapidKeys;</code></pre>
         <pre class="lang-ts fragment"><code>Value ---^----^--------------^--------------?</code></pre>
       </div>
       <ul class="content fragment">
-        <li>Namespace!</li>
+        <li>What is <code>md5</code>?
+          <ul class="fragment">
+            <li>Namespace!</li>
+          </ul>
+        </li>
       </ul>
     </section>
 
@@ -349,6 +369,30 @@ namespace moment {
         <li class="fragment"><code>const hours = moment.HOURS_PER_DAY // Value</code></li>
         <li class="fragment"><code>const version = moment.Moment.version // Value</code></li>
       </ul>
+    </section>
+
+    <section>
+      <h2>Namespaces can be merged</h2>
+      <ul class="content">
+        <li>Overlapping namespaces get <em>merged</em></li>
+      </ul>
+      <div class="fragment">
+        <pre class="lang-ts"><code>// File: @types/jasmine/index.d.ts
+export namespace jasmine {
+  export interface Matchers {
+    toBeDefined(): boolean;
+  }
+}</code></pre>
+        <pre class="lang-ts"><code>// File: src/types/jasmine.d.ts
+export namespace jasmine {
+  export interface Matchers {
+    toHaveAttribute(expectedAttribute: string, expectedValue: any): boolean;
+  }
+}</code></pre>
+        <pre class="lang-ts fragment"><code>// File: customElement.spec.ts
+expect(element.class).toBeDefined();
+expect(element).toHaveAttribute('inputValue', 17);</code></pre>
+      </div>
     </section>
 
     <section>
@@ -538,6 +582,12 @@ export function getVapidHeaders(
 };</code></pre>
     </section>
 
+    <section class="center">
+      <div class="content content--center">
+        <h1><span style="font-size: 0.8em">Done! What now?</span></h1>
+      </div>
+    </section>
+
     <section>
       <h2>Testing</h2>
       <ul class="content">
@@ -583,13 +633,13 @@ encryptionResult.cipherText;</code></pre>
     <section>
       <h2>Publishing</h2>
       <ul class="content">
-        <li>DefinitelyTyped/DefinitelyTyped</li>
+        <li>DefinitelyTyped</li>
         <li>Pull Request</li>
         <li>Published to @types/your-package</li>
+        <li>Usually around 1 week</li>
+        <li>Open-Source cred 🏅</li>
       </ul>
     </section>
-
-    <!-- TODO: Modules? -->
 
     <!----------------------------------------------------
                              FIN
@@ -608,19 +658,14 @@ encryptionResult.cipherText;</code></pre>
       <!--</ul>-->
     <!--</section>-->
 
-    <!-- TODO style this section properly -->
     <section>
       <h2>Further Reading</h2>
       <ul>
-        <li>https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html</li>
-        <li>https://www.typescriptlang.org/docs/handbook/declaration-files/deep-dive.html</li>
-        <li>https://www.typescriptlang.org/docs/handbook/module-resolution.html</li>
-        <li>https://www.typescriptlang.org/docs/handbook/advanced-types.html</li>
-        <li>https://github.com/DefinitelyTyped/DefinitelyTyped#how-can-i-contribute</li>
+        <li>https://www.typescriptlang.org/docs/handbook</li>
+        <li>https://github.com/DefinitelyTyped/DefinitelyTyped</li>
+        <li>https://basarat.gitbooks.io/typescript</li>
       </ul>
     </section>
-
-    <!-- https://www.typescriptlang.org/docs/handbook/declaration-files/deep-dive.html-->
   </div>
 </div>
 
@@ -631,7 +676,7 @@ encryptionResult.cipherText;</code></pre>
 <script>
   Reveal.initialize({
     progress: true,
-    controls: true,
+    controls: false,
     history: true,
     center: false,
     dependencies: [

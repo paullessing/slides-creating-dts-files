@@ -255,6 +255,14 @@ body {
   -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
   transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
 
+.reveal::before {
+  content: '@P_Lessing';
+  position: fixed;
+  bottom: 4vh;
+  right: 4vh;
+  font-size: 3vh;
+  opacity: 0.6; }
+
 .reveal .slides {
   text-align: left;
   font-size: 30px; }
@@ -297,9 +305,6 @@ body {
 
 .reveal section img {
   border: none; }
-
-.reveal .controls {
-  display: none !important; }
 
 .reveal .controls .navigate-down.highlight {
   animation: none; }
