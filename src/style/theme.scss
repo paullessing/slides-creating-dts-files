@@ -36,6 +36,16 @@ $linkColor: #e7ad52;
 // ---------------------------------------------
 
 .reveal {
+
+  &::before {
+    content: '@P_Lessing';
+    position: fixed;
+    bottom: 4vh;
+    right: 4vh;
+    font-size: 3vh;
+    opacity: 0.6;
+  }
+
   .slides {
     text-align: left;
     font-size: $fontSize;
@@ -72,6 +82,10 @@ $linkColor: #e7ad52;
     margin-left: 0;
     margin-right: 0;
 
+    code {
+      max-height: none;
+    }
+
     &.full {
       width: 100%;
     }
@@ -101,9 +115,7 @@ $linkColor: #e7ad52;
   }
 }
 
-.content {
-  padding: 1em;
-
+.reveal .content {
   &--center {
     height: 100%;
     display: flex;

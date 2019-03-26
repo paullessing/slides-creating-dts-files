@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>I Hereby Declare</title>
+  <title>Anything to Declare?</title>
   <link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
   <link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
   <link rel="stylesheet" href="assets/theme.css">
@@ -11,44 +11,111 @@
 <div class="reveal">
   <div class="slides">
 
+    <!-- Intro slide: What are we going to go through -->
+    <!-- We are about to go on a tangent: this is why we're doing it -->
+
     <section class="center">
       <div class="content content--center">
-        <h1>I Hereby<br />Declare</h1>
-        <h2 style="text-align: center">Understanding Typescript Definition Files</h2>
+        <h1>Anything to Declare?</h1>
+        <h2 style="text-align: center">How to write your own <code>@types</code></h2>
       </div>
     </section>
 
-    <!--<section hidden>-->
-      <!--<h2>About Me</h2>-->
-      <!--<ul class="content">-->
-        <!--<li>Paul Lessing</li>-->
-        <!--<li>City Pantry</li>-->
-        <!--<li>Angular, Node, Java, PHP</li>-->
-      <!--</ul>-->
-    <!--</section>-->
+    <section>
+      <h2>About Me</h2>
+      <ul class="content">
+        <li>Paul Lessing</li>
+        <li>Senior Frontend Developer, City Pantry</li>
+        <li>Angular, Node.js, <span style="font-size:0.7em">PHP</span></li>
+        <li>github.com/paullessing</li>
+        <li>Medium, Twitter: @P_Lessing</li>
+      </ul>
+    </section>
 
     <section>
-      <h2>What are <code>.d.ts</code> files?</h2>
+      <h2>Overview</h2>
       <ul class="content">
-        <li>TypeScript <em>definition</em> files
+        <li>
+          Writing <code>@types</code> for a third-party package
           <ul>
-            <li>C header files (<code>.h</code>)</li>
+            <li>Basics of <code>.d.ts</code> files</li>
+            <li>Types and Values</li>
+            <li>Advanced Types & Patterns</li>
           </ul>
         </li>
-        <li>Interface with JavaScript files</li>
+        <li>Testing & Publishing</li>
+        <li>Questions</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Getting Started</h2>
+      <p style="font-size: 1em; margin-bottom: 0.2em">Web Push Notifications: Timely, Relevant, and Precise</p>
+      <a style="font-size: 0.8em;" href="https://developers.google.com/web/fundamentals/push-notifications/">https://developers.google.com/web/fundamentals/push-notifications/</a>
+      <div class="fragment">
+        <img src="assets/getting-started-web-push-npm.png" width="80%" style="vertical-align: top">
+      </div>
+    </section>
+
+    <section>
+      <h2>Import the package</h2>
+      <img
+        class="fragment"
+        src="assets/snippets/no-intellisense.png"
+        width="80%" />
+      <p class="fragment">
+        No types! 😭
+      </p>
+    </section>
+
+    <section>
+      <h2>What are these <code>@types</code>?</h2>
+      <ul class="content fragment">
+        <li>TypeScript <em>definition</em> files: <code>.<b>d</b>.ts</code>
+          <ul>
+            <li>Similar to C header files (<code>.h</code>)</li>
+          </ul>
+        </li>
+        <li>Interface to JavaScript files</li>
         <li>Type Checking</li>
       </ul>
     </section>
 
     <section>
+      <h2>Differences between <code>.ts</code> and <code>.d.ts</code></h2>
+      <div>
+        <h3 class="fragment">.ts</h3>
+        <ul class="content fragment">
+          <li>Explicity imported</li>
+          <li>Compiled to JavaScript</li>
+          <li>Contains code that is executed</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="fragment">.d.ts</h3>
+        <ul class="content fragment">
+          <li>
+            Automatically imported ("Ambient")
+            <ul>
+              <li>Imported <em>by name</em> or via <code>tsconfig.json</code></li>
+            </ul>
+          </li>
+          <li>Contain information about <em>other</em> code files</li>
+          <li>Must <code>export</code> everything at top level</li><!-- https://basarat.gitbooks.io/typescript/docs/types/ambient/d.ts.html -->
+          <li>Still a <code>.ts</code> file: (almost) all the same rules apply</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
       <h2>Why do I care?</h2>
       <ul class="content">
-        <li>Legacy code</li>
-        <li>Migration</li>
         <li>Third-party Libraries</li>
         <li>Intellisense</li>
+        <li>Legacy code</li>
+        <li>Migration</li>
         <li>Publishing on npm</li>
-        <li class="fragment">Applications for regular <code>.ts</code></li>
+        <li>Applications for regular <code>.ts</code></li>
       </ul>
 
       <aside class="notes">
@@ -57,118 +124,227 @@
     </section>
 
     <section>
-      <section>
-        <h2>Getting Started</h2>
-        <div>
-          <img src="assets/snippets/printer.ts.png" width="80%" style="vertical-align: top">
-        </div>
-      </section>
-      <section>
-        <h2>Getting Started</h2>
-        <ul class="content">
-          <li><code>tsc -d &lt;file&gt;.ts</code></li>
-        </ul>
-        <img src="assets/snippets/printer.d.ts.png" width="80%" style="vertical-align: top">
-      </section>
+      <h2>DefinitelyTyped</h2>
+      <ul class="content fragment">
+        <li>https://github.com/DefinitelyTyped/DefinitelyTyped</li>
+        <li>Library of types</li>
+        <li>Published to npm as <code>@types/*</code></li>
+        <li>Open-source
+          <ul>
+            <li>Anyone can contribute</li>
+          </ul>
+        </li>
+      </ul>
     </section>
 
     <section>
-      <h2>File Endings</h2>
-      <div>
-        <h3>.ts</h3>
-        <ul class="content fragment">
-          <li>Explicity imported</li>
-          <li>Contains code and/or declarations</li>
-        </ul>
-      </div>
-      <div>
-        <h3>.d.ts</h3>
-        <ul class="content fragment">
-          <li>Automatically imported</li>
-          <li>Imported <em>by name</em></li>
-          <li><code>index.d.ts</code> in package.json</li>
-          <li>Must <code>declare</code> everything at top level</li><!-- TODO sure about this? -->
-          <li>Is a <code>.ts</code> file - all the same rules apply</li>
-          <li class="fragment">Use when dealing with external code</li>
-        </ul>
+      <h2>Package Overview</h2>
+      <div class="content">
+        <pre class="lang-js"><code style="max-height:initial">const webpush = require('web-push');
+
+// Generate some keys
+webpush
+  .generateVAPIDKeys();
+
+// Encrypt a payload
+webpush
+  .encrypt(userPublicKey, userAuth, payload, contentEncoding);
+
+// Set config
+webpush
+  .setGCMAPIKey(apiKey);
+
+// Generate headers
+webpush
+  .getVapidHeaders(audience, subject, publicKey, privateKey, contentEncoding, expiration);
+
+// Generate Metadata
+webpush
+  .generateRequestDetails(pushSubscription, payload, options);
+
+// Send a notification
+webpush
+  .sendNotification(pushSubscription, payload, options);
+
+// Constants
+webpush.supportedContentEncodings.AES_GCM
+webpush.supportedContentEncodings.AES_128_GCM</code></pre>
       </div>
     </section>
 
     <section>
-      <h2>The <code>declare</code> keyword</h2>
-      <blockquote>
-        The TypeScript <b>declare</b> keyword is used to declare variables that may not have originated from a TypeScript file.
-      </blockquote>
+      <h2>You can auto-generate <code>.d.ts</code> files</h2>
+      <div>
+        <img src="assets/snippets/printer.ts.png" width="80%" style="vertical-align: top">
+      </div>
+    </section>
+    <section>
+      <h2>Auto-Generated Code</h2>
+      <ul class="content">
+        <li><code>tsc -d &lt;file&gt;.ts</code></li>
+      </ul>
+      <img src="assets/snippets/printer.d.ts.short.png" width="80%" style="vertical-align: top">
+      <ul class="content fragment">
+        <li>Only from TypeScript files</li>
+        <li>Rough outline of code</li>
+        <li>Good starting point
+          <ul><li>Generate and tweak</li></ul>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Let's Read the Docs</h2>
+      <div>
+        <img src="assets/getting-started-github-docs.png" width="80%" style="vertical-align: top">
+      </div>
+    </section>
+
+    <section>
+      <h2>Start with the easy ones</h2>
+      <img src="assets/generate-vapid-keys-github.png" />
+      <div class="fragment">
+        <pre class="lang-ts"><code>export interface VapidKeys {
+  publicKey: string;
+  privateKey: string;
+}
+
+export function generateVAPIDKeys(): VapidKeys;</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Start with the easy ones, part 2</h2>
+      <img src="assets/set-gcm-github.png" />
+      <div class="fragment">
+        <pre class="lang-ts"><code>export function setGCMAPIKey(apiKey: string): void</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Important: Read the Source</h2>
+      <img src="assets/gcm-key-source-highlight.png" />
+      <div class="fragment">
+        <pre class="lang-ts"><code>export function setGCMAPIKey(apiKey: string | null): void</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Let's get more interesting</h2>
+      <img src="assets/encrypt.png" />
+      <div class="fragment">
+        <pre class="lang-ts"><code>export function encrypt(
+  userPublicKey: string,
+  userAuth: string,
+  payload: string,
+  contentEncoding: string
+): Promise&lt;?&gt;</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2><i>Always</i> check the source</h2>
+      <img src="assets/encrypt-source.png" />
+      <div class="fragment">
+        <pre class="lang-ts"><code>export function encrypt(
+  userPublicKey: string,
+  userAuth: string,
+  payload: string | Buffer,
+  contentEncoding: string
+): EncryptionResult</code></pre>
+      </div>
+      <div class="fragment">
+        <pre class="lang-ts"><code>export interface EncryptionResult {
+  localPublicKey: string;
+  salt: string;
+  cipherText: Buffer;
+}</code></pre></div>
+    </section>
+
+    <section>
+      <h2>Declaring Constants</h2>
+      <img src="assets/webpush-constants.png" />
       <ul>
-        <li>All variables <em>inside</em> <code>.ts</code> files are either exported or invisible</li>
-        <li>Global Scope</li>
-        <li>Examples: jQuery <code>$</code>, Google Analytics <code>ga</code></li>
+        <li>How to declare this?</li>
       </ul>
       <div class="fragment">
-        <code>ga.js</code>
-        <pre class="lang-js"><code>window.ga = ga || [];</code></pre>
+        <pre class="lang-ts"><code>export type ContentEncoding = 'aesgcm' | 'aes128gcm';</code></pre>
       </div>
       <div class="fragment">
-        <code>analytics.ts</code>
-        <pre class="lang-ts"><code>ga.push('pageview');      // error TS2304: Cannot find name 'ga'.</code></pre>
-        <pre class="lang-ts"><code>declare const ga: string[];
-ga.push('pageview');      // OK
-</code></pre>
+        <pre class="lang-ts"><code>export const supportedContentEncodings: {
+  readonly AES_GCM:     'aesgcm'    & ContentEncoding;
+  readonly AES_128_GCM: 'aws128gcm' & ContentEncoding;
+};</code></pre></div>
+      <ul class="fragment">
+        <li>Note: Not actually a <code>const</code>!</li>
+        <li class="fragment">🤔 What does <b><code>const</code></b> <em>mean</em> inside <code>.d.ts</code>?</li>
+      </ul>
+    </section>
+
+    <section class="center">
+      <div class="content content--center">
+        <h1><span style="font-size: 0.8em">Types vs Values</span></h1>
       </div>
     </section>
 
     <section>
-      <h2>Concepts</h2>
-      <ul class="content">
-        <li>Type</li>
-        <li>Value</li>
-        <li>Namespace</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Concepts: Types</h2>
-      <ul class="content">
+      <h2>Types vs Values</h2>
+      <h3 class="fragment">Types</h3>
+      <ul class="content fragment">
         <li>Typescript only</li>
         <li>Compiled Out</li>
       </ul>
-      <div class="fragment">
-        <h3>Types:</h3>
-        <ul class="content">
-          <li><code><b>type</b> T = number | string</code></li>
-          <li><code><b>interface</b> I { v: T }</code></li>
-          <li><code><b>class</b> C {}</code></li>
-          <li><code><b>enum</b> E { A, B, C }</code></li>
-          <li><code>import { T } from 'm'</code></li>
-        </ul>
-      </div>
+
+      <h3 class="fragment">Values</h3>
+      <ul class="content fragment">
+        <li>Compiled to JavaScript</li>
+        <li>Can be on the right hand side of <code>=</code> in JS</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Examples</h2>
+      <h3 class="fragment">Types</h3>
+      <ul class="content fragment">
+        <li><code><b>type</b> T = number | string</code></li>
+        <li><code><b>interface</b> I {}</code></li>
+        <li><code>import { <b>T</b>, <b>I</b> } from 'm'</code></li>
+      </ul>
+
+      <h3 class="fragment">Values</h3>
+      <ul class="content fragment">
+        <li><code><b>const</b> foo = 'bar' // let, var</code></li>
+        <li><code><b>function</b> hello()</code></li>
+        <li><code><b>namespace</b> n { const x }</code></li>
+        <li><code><b>module</b> m { const x }</code></li>
+        <li><code>import { <b>v</b> } from 'm' </code></li>
+      </ul>
+
       <aside class="notes">
-        Things that are <em>interfaces</em>, compiled out by TypeScript
+        Types: Things that are <em>interfaces</em>, compiled out by TypeScript<br/>
+        Values: Things that stay behind when you compile<br>
+        Right hand side of assignment vs left hand side of assignment
       </aside>
     </section>
 
     <section>
-      <h2>Concepts: Values</h2>
-      <ul class="content">
-        <li>Compiled to JavaScript</li>
-        <li>Can be referenced</li>
-      </ul>
-      <div class="fragment">
-        <h3>Values:</h3>
-        <ul class="content">
-          <li><code><b>const</b> foo = 'bar' // let, var</code></li>
-          <li><code><b>function</b> hello()</code></li>
-          <li><code><b>enum</b> E { A, B, C }</code></li>
-          <li><code><b>class</b> C {}</code></li>
-          <li><code><b>namespace</b> n { const x }</code></li>
-          <li><code><b>module</b> m { const x }</code></li>
-          <li><code>import { <b>v</b> } from 'm' </code></li>
-        </ul>
-      </div>
+      <h2>Examples</h2>
+      <pre class="lang-ts fragment"><code>Type -------v</code></pre>
+      <pre class="lang-ts         "><code>  const me: User = { name: 'Paul Lessing' };</code></pre>
+      <pre class="lang-ts fragment"><code>Value --^----------^</code></pre>
 
-      <aside class="notes">
-        Things that stay behind when you compile your code
-      </aside>
+      <div class="fragment" style="margin-top: 2em">
+        <pre class="lang-ts fragment"><code>Type ----------------v-------------v------------v</code></pre>
+        <pre class="lang-ts         "><code>function hash(value: Buffer, salt: string): md5.HashResult {}</code></pre>
+        <pre class="lang-ts fragment"><code>Value ---^----^--------------^--------------?</code></pre>
+      </div>
+      <ul class="content fragment">
+        <li>What is <code>md5</code>?
+          <ul class="fragment">
+            <li>Namespace!</li>
+          </ul>
+        </li>
+      </ul>
     </section>
 
     <section>
@@ -177,497 +353,317 @@ ga.push('pageview');      // OK
         <li>Groups of types and/or values</li>
         <li>Like <i>objects</i> containing entries</li>
       </ul>
-      <pre class="lang-ts fragment"><code>namespace N {
-  interface I {
-    v: T;
+      <pre class="lang-ts fragment"><code>// File: moment.ts
+namespace moment {
+  export interface Duration {
+    seconds: number;
   }
-  class C {
-    static const X = 'x';
+  export class Moment {
+    static const version = '1.0';
   }
-}
-</code></pre>
-      <ul class="content fragment">
-        <li><code>const iThing: N.I // Types</code></li>
-        <li><code>const instance: N.C // Types</code></li>
-        <li><code>const x = N.C.x // Values</code></li>
-        <li><code>const C = N.C // Values</code></li>
+  export const HOURS_PER_DAY = 24;
+}</code></pre>
+      <ul class="content">
+        <li class="fragment"><code>const twoDays: moment.Duration = ... // Type</code></li>
+        <li class="fragment"><code>const now: moment.Moment = ... // Type</code></li>
+        <li class="fragment"><code>const hours = moment.HOURS_PER_DAY // Value</code></li>
+        <li class="fragment"><code>const version = moment.Moment.version // Value</code></li>
       </ul>
     </section>
 
     <section>
-      <h2>Things Can Be Value <em>and</em> Type</h2>
+      <h2>Namespaces can be merged</h2>
       <ul class="content">
-        <li>
+        <li>Overlapping namespaces get <em>merged</em></li>
+      </ul>
+      <div class="fragment">
+        <pre class="lang-ts"><code>// File: @types/jasmine/index.d.ts
+export namespace jasmine {
+  export interface Matchers {
+    toBeDefined(): boolean;
+  }
+}</code></pre>
+        <pre class="lang-ts"><code>// File: src/types/jasmine.d.ts
+export namespace jasmine {
+  export interface Matchers {
+    toHaveAttribute(expectedAttribute: string, expectedValue: any): boolean;
+  }
+}</code></pre>
+        <pre class="lang-ts fragment"><code>// File: customElement.spec.ts
+expect(element.class).toBeDefined();
+expect(element).toHaveAttribute('inputValue', 17);</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Can something be Value <em>and</em> Type?</h2>
+      <ul class="content">
+        <li class="fragment">
           Class
-          <ul>
+          <pre class="lang-ts"><code>const p: Promise;
+p = new Promise();</code></pre>
+          <ul class="fragment">
             <li>Interface</li>
             <li>Constructor function</li>
           </ul>
-          <pre class="lang-ts"><code>const p: Promise;
-p = new Promise();</code></pre>
         </li>
-        <li>
+        <li class="fragment">
           Enum
-          <ul>
+          <pre class="lang-ts"><code>const bestDay: DaysOfWeek;
+bestDay = DaysOfWeek.SATURDAY;</code></pre>
+          <ul class="fragment">
             <li>Type</li>
             <li>Enum object</li>
-            <!-- TODO maybe a code sample here? -->
           </ul>
         </li>
       </ul>
     </section>
 
     <section>
-      <section>
-        <h2>Module vs Namespace</h2>
-        <h3><code>namespace</code></h3>
-        <ul>
-          <li>JavaScript Object</li>
-          <li>Can export selectively from inside <code>namespace</code></li>
-        </ul>
-        <h3><code>module</code></h3>
-        <ul>
-          <li>Old name: "External Modules"</li>
-          <li>Only <code>declare</code>d in <code>.d.ts</code> files</li>
-          <li>1 <code>.ts</code> file = 1 <code>module</code></li>
-        </ul>
-      </section>
-      <section>
-        <div class="content content--center">
-          <h2>Compiled output</h2>
-          <img src="assets/snippets/namespace-module.png">
-        </div>
-      </section>
-    </section>
+      <h2>Back to our code</h2>
+      <div class="fragment">
+        <pre class="lang-ts"><code>export function encrypt(
+  userPublicKey: string,
+  userAuth: string,
+  payload: string | Buffer,
+  contentEncoding: ContentEncoding
+): EncryptionResult;
 
-    <section>
-      <h2>Example: What does <em>this</em> mean?</h2>
-      <img src="assets/snippets/refers-only-to-a-type.png" width="60%" style="vertical-align: top">
-      <ul>
-        <li class="fragment">
-          We think <code>Promise</code> is a <em>class</em> (value), but the compiler only has an <em>interface</em> (type)
-        </li>
-        <li class="fragment">
-          In this case: Ambient import vs. explicit import
-        </li>
-        <li class="fragment">
-          We forgot to declare the right library in our <code>tsconfig.json</code>!
-        </li>
+export type ContentEncoding = 'aesgcm' | 'aes128gcm';
+
+export const supportedContentEncodings: {
+  readonly AES_GCM:     'aesgcm'    & ContentEncoding;
+  readonly AES_128_GCM: 'aws128gcm' & ContentEncoding;
+};</code></pre></div>
+      <ul class="fragment content">
+        <li>Better type safety for <code>contentEncoding</code></li>
+        <li>Exported declaration for <code>supportedContentEncodings</code></li>
       </ul>
     </section>
 
     <section>
-      <section>
-        <h2>Merging</h2>
-        <ul class="content">
-          <li>Overloading</li>
-          <li>Multiple definitions as if they were one
-            <pre><code class="lang-typescript">interface Foo { a: string; }
-interface Foo { b: number; }
-
-// Result
-interface Foo {
-  a: string;
-  b: number;
-}</code></pre>
-          </li>
-          <li class="fragment">Allows representing real-life JS library behaviour
-            <pre><code class="lang-typescript">const now: moment.Moment = moment();
-
-// Example declaration
-namespace moment {
-  interface Moment {}
-}
-function moment(): moment.Moment;</code></pre>
-          </li>
-          <li class="fragment">
-            Can merge anything that doesn't cause a conflict
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Merge Rules: Conflicts</h2>
-        <ul class="content">
-          <li>
-            Different types for the same name
-            <pre class="full"><code class="small lang-typescript">interface Foo { a: string; }
-interface Foo { a: number; }
-
-// Result
-error TS2727: Subsequent property declarations must have the same type.
-  Property 'a' must be of type 'string', but here has type 'number'.</code></pre>
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Merge Rules: Conflicts</h2>
-        <ul class="content">
-          <li>
-            Type aliases
-            <pre class="full"><code class="small lang-typescript">type Direction = 'left';
-type Direction = 'right';
-
-// Result
-error TS2300: Duplicate identifier 'Direction'.</code></pre>
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Merge Rules: Conflicts</h2>
-        <ul class="content">
-          <li>
-            Values
-            <pre><code class="small lang-typescript">let Direction = 'left';
-function Direction(): string;
-
-// Result
-error TS2300: Duplicate identifier 'Direction'.</code></pre>
-          </li>
-          <li class="fragment">
-            Exception: namespaces
-            <pre class="fragment"><code class="small lang-typescript">function time(): Date;
-namespace time {
-  const startOfTime: number = 0;
-  now(): Date;
-}</code></pre>
-          </li>
-          <li class="fragment">
-            Namespaces never conflict
-          </li>
-        </ul>
-      </section>
+      <h2>Complex Behaviours</h2>
+      <img src="assets/generate-request-details-code-github.png" />
     </section>
 
     <section>
-      <h2>Merge Rules: Namespaces</h2>
+      <h2>Complex Behaviours</h2>
+      <pre class="lang-ts"><code>export interface PushSubscription {
+  ...
+}
+
+export interface RequestOptions {
+  ...
+}
+
+export interface Headers {
+  [header: string]: string;
+}
+
+export interface RequestDetails {
+  method: 'POST';
+  headers: Headers;
+  body: Buffer | null;
+  endpoint: string;
+  proxy?: string;
+}
+
+
+export function generateRequestDetails(
+  subscription: PushSubscription,
+  payload?: string | Buffer,
+  options?: RequestOptions
+): RequestDetails;</code></pre>
+    </section>
+
+    <section>
+      <h2>Complex Behaviours</h2>
+      <img src="assets/generate-docs-github.png" />
+      <ul>
+        <li>How to model this behaviour?</li>
+        <li>Want to be as helpful (specific) as possible</li>
+        <li>Compile-time error handling</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Overloading</h2>
       <ul class="content">
-        <li>
-          Namespaces never conflict
-          <ul>
-            <li class="fragment">
-              ...but the things inside them might (if they're exported)
-            <pre class="fragment"><code class="lang-typescript">export namespace n {
-  export interface F {
-    a: string;
-  }
-}
-export namespace n {
-  export interface F {
-    a: number;
-  }
-}
-
-// Result
-Subsequent property declarations must have the same type.
-  Property 'a' must be of type 'string', but here has type 'number'.</code></pre>
-            </li>
-          </ul>
+        <li>One base method declaration</li>
+        <li>Multiple additional declarations without bodies</li>
+        <li>Compiler infers which one applies</li>
       </ul>
+      <div class="fragment">
+        <pre class="lang-ts fragment"><code>function safeUppercase(value: string): string;
+function safeUppercase(value: null): null;</code></pre>
+        <pre class="lang-ts"><code>function safeUppercase(value: string | null): string | null {
+  if (typeof value === 'string') {
+    return value.toUppercase();
+  } else {
+    return null;
+  }
+}</code></pre>
+        <pre class="lang-ts fragment"><code>const x: string = safeToUppercase('hello'); // OK
+const y: string = safeToUppercase(null); // Type 'null' is not assignable to type 'string'</code></pre>
+      </div>
     </section>
 
     <section>
-      <h2>Merge Rules: Exporting</h2>
-      <ul>
-        <li>
-          All exported types and values are visible
-        </li>
-        <li>
-          Exporting works from inside namespaces
-        </li>
-        <li>
-          Non-exported values inside namespaces are "private"
-        </li>
-      </ul>
-      <pre class="fragment lang-ts"><code>export namespace zoo {
-  export interface Mammal { legs: number; }
-  interface Dinosaur {}
-}
-export namespace zoo {
-  export interface Mammal { furType: string; }
-  export class Rabbit implements Mammal {
-    legs: number;
-    furType: string;
-    friend: Dinosaur; // Error
-  }
-  export const bunny = new Rabbit();
+      <h2>Overloading <code>generateRequestDetails</code></h2>
+      <pre class="lang-ts fragment"><code>export function generateRequestDetails(subscription: PushSubscription,
+  payload?: null,
+  options?: RequestOptions
+): RequestDetails & { body: null };</code></pre>
+      <pre class="lang-ts fragment"><code>export function generateRequestDetails(subscription: PushSubscription,
+  payload?: string | Buffer,
+  options?: RequestOptions
+): RequestDetails & { body: Buffer };</code></pre>
+      <pre class="lang-ts"><code>export function generateRequestDetails(subscription: PushSubscription,
+  payload?: string | Buffer,
+  options?: RequestOptions
+): RequestDetails;
+
+export interface RequestDetails {
+  method: 'POST';
+  headers: Headers;
+  body: Buffer | null;
+  endpoint: string;
+  proxy?: string;
 }</code></pre>
     </section>
 
     <section>
-      <h2>Example: Jasmine Matchers</h2>
-      <pre class="lang-ts"><code>const testElement = fixture.debugElement.query(By.css('.test'));
-expect(testElement).toBePresent();</code></pre>
+      <h1 class="content content--center">Advanced Types</h1>
+    </section>
 
-      <pre class="lang-ts fragment"><code>jasmine.addMatchers({
-  toBePresent: () => ({
-    compare: (actual: DebugElement | null | void, message?: string) => {
-      return {
-        pass: !!actual,
-        message: `Expected element ${ actual ? 'not ' : ''}to be present` +
-          (message ? `: ${message}` : '')
-      };
-    }
-  }),
+    <section>
+      <h2>Subtypes of <code>string</code></h2>
+      <ul class="content fragment">
+        <li>Remember: <code>'some-string'</code> is a type</li>
+        <li>Overloading based on specific inputs</li>
+        <li>Example: Event handling</li>
+      </ul>
+      <div class="fragment">
+
+        <div class="fragment">
+          <pre class="lang-ts"><code>function on(eventName: 'click', handler: (event: MouseEvent) => void);</code></pre>
+          <pre class="lang-ts"><code>function on(eventName: 'change', handler: (event: InputEvent) => void);</code></pre>
+        </div>
+        <pre class="lang-ts"><code>function on(eventName: string, handler: (event: Event) => void);</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Implementing <code>getVapidHeaders</code></h2>
+      <img src="assets/get-vapid-headers-docs.png" />
+    </section>
+
+    <section>
+      <h2>Overloads for <code>getVapidHeaders</code></h2>
+      <pre class="lang-ts fragment"><code>export function getVapidHeaders(
+  audience: string, subject: string, publicKey: string, privateKey: string,
+  contentEncoding: 'aes128gcm', expiration?: number
+): {
+    Authorization: string;
+};
+export function getVapidHeaders(
+  audience: string, subject: string, publicKey: string, privateKey: string,
+  contentEncoding: 'aesgcm', expiration?: number
+): {
+    Authorization: string;
+    'Crypto-Key': string;
 };</code></pre>
+      <pre class="lang-ts"><code>export function getVapidHeaders(
+  audience: string, subject: string, publicKey: string, privateKey: string,
+  contentEncoding: ContentEncoding, expiration?: number
+): {
+    Authorization: string;
+    'Crypto-Key'?: string;
+};</code></pre>
+    </section>
 
-      <pre class="lang-ts fragment"><code>declare namespace jasmine {
-  export interface Matchers&lt;T&gt; {
-    /**
-     * Tests whether a given DebugElement is present in the DOM.
-     * @param {string} message (optional) message to display on failure.
-     */
-    toBePresent(message?: string): boolean;
-  }
-}</code></pre>
+    <section class="center">
+      <div class="content content--center">
+        <h1><span style="font-size: 0.8em">Done! What now?</span></h1>
+      </div>
     </section>
 
     <section>
-      <section>
-        <h2>Overloading: HTTP Matcher</h2>
-        <img src="assets/snippets/overloaded-http-matcher.png" style="border: 0">
-      </section>
-      <section>
-        <h2>Overloading: Intellisense</h2>
-        <img src="assets/snippets/http-autocomplete.png" style="border: 0">
-      </section>
+      <h2>Testing</h2>
+      <ul class="content">
+        <li>web-push-tests.ts</li>
+        <li>Not executed, but type checked</li>
+        <li>Tool: dtslint</li>
+        <li>
+          <code>$ExpectType</code>
+          <ul><li>Ensure the return value is correct</li></ul>
+        </li>
+        <li>
+          <code>$ExpectError</code>
+          <ul><li>Ensure the assignment fails</li></ul>
+        </li>
+      </ul>
     </section>
 
     <section>
-      <section>
-        <h2>Problem: String IDs</h2>
-        <pre class="lang-ts"><code>interface Order {
-  id: string;
-  ...
-}
+      <h2>Testing Example</h2>
+      <pre class="lang-ts fragment"><code>declare const anything: any;
 
-class OrderService {
-  getOrder(orderId: string): Order {}
-}</code></pre>
-        <ul class="fragment">
-          <li>How to ensure correct call?</li>
-          <li><code>string</code> could come from anywhere</li>
-          <li><code>orderService.getOrder(customerId);</code></li>
-        </ul>
-      </section>
+// $ExpectType EncryptionResult
+const encryptionResult = encrypt('publicKey', 'userAuth', 'myPayload',
+        supportedContentEncodings.AES_GCM);
 
-      <section>
-        <h2>Pattern: Phantom Types</h2>
-        <pre class="lang-ts"><code>interface Order {
-  id: OrderId;
-  ...
-}
-interface OrderId extends String {
-  __order_id_phantom__: never;
-}
+const buffer: Buffer = anything;
+// $ExpectType EncryptionResult
+encrypt('publicKey', 'userAuth', buffer,
+        supportedContentEncodings.AES_128_GCM);
 
-class OrderService {
-  getOrder(orderId: OrderId): Order {
-    return this.http.get(`http://api.dev/orders/${orderId}`);
-  }
-}</code></pre>
-        <ul>
-          <li>Cannot assign to <code>never</code></li>
-          <li><code>OrderId</code> is still a String</li>
-          <li><b>But</b> no other string is an OrderId</li>
-        </ul>
-      </section>
+// Only valid encoding should be allowed
+// $ExpectError
+encrypt('publicKey', 'userAuth', 'myPayload', 'unknownEncoding');
 
-      <section>
-        <h2>Pattern: Phantom Types</h2>
-        <pre class="lang-ts"><code>const orderId: string = router.queryParams.orderId;
-
-orderService.getOrder(orderId); // error</code></pre>
-        <pre class="lang-ts fragment"><code>function ensureOrderId(id: string): OrderId {
-  if (!id || !id.match(ORDER_ID_PATTERN)) {
-    throw new Error(`ID "${id}" does not look like a valid OrderId!`);
-  }
-  return id as OrderId;
-}
-
-const orderId: string = ensureOrderId(router.queryParams.orderId);
-orderService.getOrder(orderId); // OK</code></pre>
-      </section>
+// $ExpectType string
+encryptionResult.localPublicKey;
+// $ExpectType string
+encryptionResult.salt;
+// $ExpectType Buffer
+encryptionResult.cipherText;</code></pre>
     </section>
 
     <section>
-      <section>
-        <h2>Example: <code>node-uuid</code></h2>
-        <p>https://github.com/broofa/node-uuid</p>
-        <h3>API</h3>
-        <pre class="lang-plain"><code style="max-height: initial">uuid()
-  Generates a v4 UUID.
-
-uuid.v1([options [, buffer [, offset]]])
-  Generate and return a RFC4122 v1 (timestamp-based) UUID.
-
-uuid.v4([options [, buffer [, offset]]])
-  Generate and return a RFC4122 v4 UUID.
-
-  options - (Object)
-    random - (Number[16]) Array of 16 numbers (0-255) to use instead of random ones
-    rng - (Function) Random # generator to use.
-        Set to one of the built-in generators:
-          - uuid.mathRNG (all platforms),
-          - uuid.nodeRNG (node.js only),
-          - uuid.whatwgRNG (WebKit only),
-          - custom function that returns an array[16] of byte values.
-    buffer - (Array | Buffer) Array or buffer where UUID bytes are to be written.
-
-  offset - (Number) Starting index in buffer at which to begin writing.</code></pre>
-      </section>
-
-      <section>
-        <pre class="lang-ts"><code>function uuid(): string;</code></pre>
-        <pre class="lang-ts fragment"><code>function uuid(): typeof uuid.v4;
-
-namespace uuid {
-  function v1(): string;
-  function v4(): string;
-}</code></pre>
-      </section>
-
-      <section>
-        <pre class="lang-ts"><code>function uuid(): string;
-namespace uuid {
-  // Placeholders until we figure them out
-  type Rng = any;
-  type OutputBuffer = any;
-
-  interface V4Options {
-    random?: number[];
-    rng?: Rng;
-    buffer?: OutputBuffer;
-  }
-
-  function v1(): string;
-  function v4(
-    options?: V4Options,
-    buffer?: OutputBuffer,
-    offset?: number
-  ): string | OutputBuffer;
-}</code></pre>
-      </section>
-
-      <section>
-        <pre class="lang-ts"><code style="max-height: initial;">/// &lt;reference types="node" /&gt;
-// Imports all types from @types/node/index.d.ts
-
-function uuid(): string;
-namespace uuid {
-  type Rng = any;
-  type OutputBuffer = number[] | Buffer; // Imported from node
-
-  interface V4Options {
-    random?: number[];
-    rng?: Rng;
-    buffer?: OutputBuffer;
-  }
-
-  function v1(): string;
-  function v4(
-    options?: V4Options,
-    buffer?: OutputBuffer,
-    offset?: number
-  ): string | OutputBuffer;
-}</code></pre>
-      </section>
-
-      <section>
-        <pre class="lang-ts"><code style="max-height: initial;">/// &lt;reference types="node" /&gt;
-
-function uuid(): string;
-namespace uuid {
-  type Rng = any;
-  type OutputBuffer = number[] | Buffer;
-
-  interface V4Options {
-    random?: number[];
-    rng?: Rng;
-  }
-  interface V4WithBufferOptions extends V4Options {
-    buffer: OutputBuffer;
-  }
-
-  function v1(): string;
-
-  function v4(options?: V4Options): string;
-  function v4(options: V4WithBufferOptions): OutputBuffer;
-  function v4(options: V4Options, buffer: OutputBuffer, offset?: number): OutputBuffer;
-}</code></pre>
-      </section>
-
-      <section>
-        <pre class="lang-ts"><code style="max-height: initial;">/// &lt;reference types="node" /&gt;
-
-function uuid(): string;
-namespace uuid {
-  type Rng = any;
-  type OutputBuffer = number[] | Buffer;
-
-  interface V4Options {
-    random?: number[];
-    rng?: Rng;
-  }
-  interface V4WithBufferOptions&lt;T extends OutputBuffer&gt; extends V4Options {
-    buffer: T;
-  }
-
-  function v1(): string;
-
-  function v4(options?: V4Options): string;
-  function v4&lt;T extends OutputBuffer&gt;(options: V4WithBufferOptions&lt;T&gt;): T;
-  unction v4&lt;T extends OutputBuffer&gt;(options: V4Options, buffer: T, offset?: number): T;
-}</code></pre>
-      </section>
-
-      <section>
-        <pre class="lang-ts"><code style="max-height: initial;">/// &lt;reference types="node" /&gt;
-
-const uuid: typeof uuid.v4;
-namespace uuid {
-  interface ProvidedRng {
-    __internal_rng_phantom__: never;
-  }
-  const mathRNG: ProvidedRng;
-  const nodeRNG: ProvidedRng;
-  const whatwgRNG: ProvidedRng;
-  interface CustomRng { (): number[] } // Returns number[16];
-
-  type Rng = ProvidedRng | CustomRng;
-  type OutputBuffer = number[] | Buffer;
-
-  interface V4Options {
-    random?: number[];
-    rng?: Rng;
-  }
-  interface V4WithBufferOptions&lt;T extends OutputBuffer&gt; extends V4Options {
-    buffer: T;
-  }
-
-  function v1(): string;
-
-  function v4(options?: V4Options): string;
-  function v4&lt;T extends OutputBuffer&gt;(options: V4WithBufferOptions&lt;T&gt;): T;
-  function v4&lt;T extends OutputBuffer&gt;(options: V4Options, buffer: T, offset?: number): T;
-}
-
-export = uuid;</code></pre>
-      </section>
-
-      <section>
-        <h2>Result</h2>
-        <img src="assets/snippets/uuid.png">
-      </section>
+      <h2>Publishing</h2>
+      <ul class="content">
+        <li>DefinitelyTyped</li>
+        <li>Pull Request</li>
+        <li>Published to @types/your-package</li>
+        <li>Usually around 1 week</li>
+        <li>Open-Source cred 🏅</li>
+      </ul>
     </section>
 
+    <!----------------------------------------------------
+                             FIN
+      ---------------------------------------------------->
+    <section class="center">
+      <div class="content content--center">
+        <h1><span>Questions?</span></h1>
+      </div>
+    </section>
+
+    <!--<section>-->
+      <!--<h2>@types / DefinitelyTyped</h2>-->
+      <!--<ul>-->
+        <!--<li>https://github.com/DefinitelyTyped/DefinitelyTyped</li>-->
+        <!--<li><code>yarn add -D @types/&lt;package&gt;</code></li>-->
+      <!--</ul>-->
+    <!--</section>-->
+
     <section>
-      <h2>@types / DefinitelyTyped</h2>
+      <h2>Further Reading</h2>
       <ul>
+        <li>https://www.typescriptlang.org/docs/handbook</li>
         <li>https://github.com/DefinitelyTyped/DefinitelyTyped</li>
-        <li><code>yarn add -D @types/&lt;package&gt;</code></li>
+        <li>https://basarat.gitbooks.io/typescript</li>
       </ul>
     </section>
   </div>
@@ -680,7 +676,7 @@ export = uuid;</code></pre>
 <script>
   Reveal.initialize({
     progress: true,
-    controls: true,
+    controls: false,
     history: true,
     center: false,
     dependencies: [
