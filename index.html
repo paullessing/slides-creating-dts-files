@@ -25,24 +25,39 @@
       <h2>About Me</h2>
       <ul class="content">
         <li>Paul Lessing</li>
-        <li>City Pantry</li>
-        <li>Angular, Node.js, <span style="font-size:0.5em">PHP</span></li>
+        <li>Senior Frontend Developer, City Pantry</li>
+        <li>Angular, Node.js, <span style="font-size:0.7em">PHP</span></li>
         <li>github.com/paullessing</li>
         <li>Medium, Twitter: @P_Lessing</li>
       </ul>
     </section>
 
     <section>
-      <h2>What are <code>.d.ts</code> files?</h2>
+      <h2>Overview</h2>
       <ul class="content">
-        <li>TypeScript <em>definition</em> files
+        <li>Basics of <code>.d.ts</code> files</li>
+        <li>
+          Writing <code>@types</code> for a third-party package
           <ul>
-            <li>C header files (<code>.h</code>)</li>
+            <li>Types and Values</li>
+            <li>Advanced Types & Patterns</li>
+          </ul>
+        </li>
+        <li>Testing & Publishing</li>
+        <li>Questions</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What are these <code>@types</code>?</h2>
+      <ul class="content">
+        <li>TypeScript <em>definition</em> files: <code>.<b>d</b>.ts</code>
+          <ul>
+            <li>Similar to C header files (<code>.h</code>)</li>
           </ul>
         </li>
         <li>Interface to JavaScript files</li>
         <li>Type Checking</li>
-        <li>Download <code>@types</code></li>
       </ul>
     </section>
 
@@ -107,21 +122,23 @@ webpush.supportedContentEncodings.AES_128_GCM</code></pre>
     </section>
 
     <section>
-      <h2>Step 0: Auto-Generate</h2>
+      <h2>You can auto-generate <code>.d.ts</code> files</h2>
       <div>
         <img src="assets/snippets/printer.ts.png" width="80%" style="vertical-align: top">
       </div>
     </section>
     <section>
-      <h2>Step 0: Auto-Generated Code</h2>
+      <h2>Auto-Generated Code</h2>
       <ul class="content">
         <li><code>tsc -d &lt;file&gt;.ts</code></li>
       </ul>
       <img src="assets/snippets/printer.d.ts.short.png" width="80%" style="vertical-align: top">
       <ul class="content fragment">
-        <li>Have to have TypeScript files</li>
-        <li>Rough outline only</li>
-        <li>Good starting point</li>
+        <li>Only from TypeScript files</li>
+        <li>Rough outline of code</li>
+        <li>Good starting point
+          <ul><li>Generate and tweak</li></ul>
+        </li>
       </ul>
     </section>
 
@@ -136,11 +153,13 @@ webpush.supportedContentEncodings.AES_128_GCM</code></pre>
       <h2>Create a <code>.d.ts</code> file</h2>
       <ul class="content fragment">
         <li>What <i>is</i> a <code>.d.ts</code> file?</li>
+        <li>How is it different from a <code>.td</code> file?</li>
       </ul>
     </section>
 
+    <!-- TODO this bit needs a better intro - it duplicates one of the first slides -->
+
     <section>
-      <!-- TODO this section needs cleaning up -->
       <h2>Differences between <code>.ts</code> and <code>.d.ts</code></h2>
       <div>
         <h3 class="fragment">.ts</h3>
@@ -159,41 +178,12 @@ webpush.supportedContentEncodings.AES_128_GCM</code></pre>
               <li>Imported <em>by name</em> or via <code>tsconfig.json</code></li>
             </ul>
           </li>
-          <li>Contain information about other code files</li>
+          <li>Contain information about <em>other</em> code files</li>
           <li>Must <code>export</code> everything at top level</li><!-- https://basarat.gitbooks.io/typescript/docs/types/ambient/d.ts.html -->
           <li>Still a <code>.ts</code> file: (almost) all the same rules apply</li>
         </ul>
       </div>
     </section>
-
-    <!-- TODO is this relevant? -->
-    <!--<section>-->
-      <!--<h2>The <code>declare</code> keyword</h2>-->
-      <!--<blockquote style="transform: translateX(-50px)">-->
-        <!--The TypeScript <b>declare</b> keyword is used to declare variables that may not have originated from a TypeScript file.-->
-      <!--</blockquote>-->
-      <!--<ul>-->
-        <!--<li>All variables <em>inside</em> <code>.ts</code> files are either exported or invisible</li>-->
-        <!--<li><code>declare</code> indicates global scope</li>-->
-      <!--</ul>-->
-    <!--</section>-->
-
-    <!--<section>-->
-      <!--<h2>Example <code>declare</code>: Google Analytics</h2>-->
-      <!--<div>-->
-        <!--<code>ga.js</code>-->
-        <!--<pre class="lang-js"><code>window.ga = ga || [];</code></pre>-->
-      <!--</div>-->
-      <!--<div class="fragment">-->
-        <!--<code>analytics.ts</code>-->
-        <!--<pre class="lang-ts"><code>ga.push('pageview');      // error TS2304: Cannot find name 'ga'.</code></pre>-->
-      <!--</div>-->
-      <!--<div class="fragment">-->
-        <!--<pre class="lang-ts"><code>declare const ga: string[];-->
-<!--ga.push('pageview');      // OK-->
-<!--</code></pre>-->
-      <!--</div>-->
-    <!--</section>-->
 
     <section>
       <h2>Start with the easy ones</h2>
@@ -618,11 +608,13 @@ encryptionResult.cipherText;</code></pre>
       <!--</ul>-->
     <!--</section>-->
 
+    <!-- TODO style this section properly -->
     <section>
       <h2>Further Reading</h2>
       <ul>
         <li>https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html</li>
         <li>https://www.typescriptlang.org/docs/handbook/declaration-files/deep-dive.html</li>
+        <li>https://www.typescriptlang.org/docs/handbook/module-resolution.html</li>
         <li>https://www.typescriptlang.org/docs/handbook/advanced-types.html</li>
         <li>https://github.com/DefinitelyTyped/DefinitelyTyped#how-can-i-contribute</li>
       </ul>
