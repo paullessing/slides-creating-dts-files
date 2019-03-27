@@ -683,10 +683,17 @@ encryptionResult.cipherText;</code></pre>
     controls: false,
     history: true,
     center: false,
+    transition: 'slide',
     dependencies: [
       { src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
     ]
   });
+  Reveal.configure({
+    keyboard: {
+      40: 'next', // Arrow down
+      38: 'prev', // Arrow up
+    }
+  })
 </script>
 <script>
   document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
