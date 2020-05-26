@@ -7,8 +7,9 @@
   "private": true,
   "scripts": {
     "start": "concurrently \"http-server\" \"livereload\"",
-    "build-theme": "node-sass src/style/theme.scss assets/theme.css",
-    "build-theme-watch": "node-sass -w src/style/theme.scss assets/theme.css",
+    "build": "rm -rf dist && mkdir dist && cp index.html dist && cp -r assets dist/assets && yarn build:theme && cp -r node_modules/reveal.js dist/assets/reveal.js",
+    "build:theme": "node-sass src/style/theme.scss dist/assets/theme.css",
+    "build:theme:watch": "node-sass -w src/style/theme.scss assets/theme.css",
     "tsc": "tsc"
   },
   "dependencies": {
