@@ -620,11 +620,18 @@ export function getVapidHeaders(
 
     <section>
       <h2>Testing Example</h2>
-      <pre class="lang-ts fragment"><code>declare const anything: any;
-
-// $ExpectType EncryptionResult
+      <pre class="lang-ts fragment"><code>// $ExpectType EncryptionResult
 const encryptionResult = encrypt('publicKey', 'userAuth', 'myPayload',
         supportedContentEncodings.AES_GCM);
+
+// $ExpectType string
+encryptionResult.localPublicKey;
+// $ExpectType string
+encryptionResult.salt;
+// $ExpectType Buffer
+encryptionResult.cipherText;
+
+declare const anything: any;
 
 const buffer: Buffer = anything;
 // $ExpectType EncryptionResult
@@ -633,14 +640,7 @@ encrypt('publicKey', 'userAuth', buffer,
 
 // Only valid encoding should be allowed
 // $ExpectError
-encrypt('publicKey', 'userAuth', 'myPayload', 'unknownEncoding');
-
-// $ExpectType string
-encryptionResult.localPublicKey;
-// $ExpectType string
-encryptionResult.salt;
-// $ExpectType Buffer
-encryptionResult.cipherText;</code></pre>
+encrypt('publicKey', 'userAuth', 'myPayload', 'unknownEncoding');</code></pre>
     </section>
 
     <section>
