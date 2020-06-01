@@ -29,7 +29,7 @@
       </div>
       <ul class="content" style="display: inline-block; width: auto">
         <li>Paul Lessing</li>
-        <li>Senior Frontend Developer, City Pantry</li>
+        <li>Lead Frontend Developer, City Pantry</li>
         <li>Angular, Node.js, <span style="font-size:0.7em">PHP</span></li>
         <li>github.com/paullessing</li>
         <li>Medium, Twitter: @P_Lessing</li>
@@ -139,6 +139,12 @@
           </ul>
         </li>
       </ul>
+    </section>
+
+    <section class="center">
+      <div class="content content--center">
+        <h1><span style="font-size: 0.8em">Let's get going on <code>web-push</code></span></h1>
+      </div>
     </section>
 
     <section>
@@ -340,7 +346,8 @@ export function generateVAPIDKeys(): VapidKeys;</code></pre>
       <div class="fragment" style="margin-top: 2em">
         <pre class="lang-ts fragment"><code>Type ----------------v-------------v------------v</code></pre>
         <pre class="lang-ts         "><code>function hash(value: Buffer, salt: string): md5.HashResult {}</code></pre>
-        <pre class="lang-ts fragment"><code>Value ---^----^--------------^--------------?</code></pre>
+        <pre class="lang-ts fragment"><code>Value ---^----^--------------^</code></pre>
+        <pre class="lang-ts fragment"><code>??? ----------------------------------------^</code></pre>
       </div>
       <ul class="content fragment">
         <li>What is <code>md5</code>?
@@ -387,15 +394,17 @@ export namespace jasmine {
     toBeDefined(): boolean;
   }
 }</code></pre>
-        <pre class="lang-ts"><code>// File: src/types/jasmine.d.ts
+      </div>
+      <div>
+        <pre class="lang-ts fragment"><code>// File: customElement.spec.ts
+expect(element.class).toBeDefined();</code></pre>
+        <pre class="lang-ts fragment">expect(element).toHaveAttribute('inputValue', 17); // Custom expectation??</code></pre>
+        <pre class="lang-ts fragment"><code>// File: src/types/jasmine.d.ts
 export namespace jasmine {
   export interface Matchers {
     toHaveAttribute(expectedAttribute: string, expectedValue: any): boolean;
   }
 }</code></pre>
-        <pre class="lang-ts fragment"><code>// File: customElement.spec.ts
-expect(element.class).toBeDefined();
-expect(element).toHaveAttribute('inputValue', 17);</code></pre>
       </div>
     </section>
 
