@@ -446,7 +446,7 @@ export type ContentEncoding = 'aesgcm' | 'aes128gcm';
 
 export const supportedContentEncodings: {
   readonly AES_GCM:     'aesgcm'    & ContentEncoding;
-  readonly AES_128_GCM: 'aws128gcm' & ContentEncoding;
+  readonly AES_128_GCM: 'aes128gcm' & ContentEncoding;
 };</code></pre></div>
       <ul class="fragment content">
         <li>Better type safety for <code>contentEncoding</code></li>
