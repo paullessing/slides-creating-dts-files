@@ -612,7 +612,7 @@ export function getVapidHeaders(
           <ul><li>Ensure the return value is correct</li></ul>
         </li>
         <li>
-          <code>$ExpectError</code>
+          <code>@ts-expect-error</code>
           <ul><li>Ensure the assignment fails</li></ul>
         </li>
       </ul>
@@ -639,7 +639,7 @@ encrypt('publicKey', 'userAuth', buffer,
         supportedContentEncodings.AES_128_GCM);
 
 // Only valid encoding should be allowed
-// $ExpectError
+// @ts-expect-error
 encrypt('publicKey', 'userAuth', 'myPayload', 'unknownEncoding');</code></pre>
     </section>
 
